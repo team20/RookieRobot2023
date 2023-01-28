@@ -58,8 +58,8 @@ public class CalibrationAutoCommand extends CommandBase {
             m_driveSubsystem.getBackLeftSwerveModule().getDriveEncoder().setPosition(0);
             m_driveSubsystem.getBackRightSwerveModule().getDriveEncoder().setPosition(0);
 
-            // turn on motors - set 10% power for now
-            m_driveSubsystem.setDriveMotors(.1, .1, .1, .1);
+            // turn on motors - set 25% power for now
+            m_driveSubsystem.setDriveMotors(.25, .25, .25, .25);
         }
     }
 

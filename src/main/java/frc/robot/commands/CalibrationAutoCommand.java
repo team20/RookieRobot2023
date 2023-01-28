@@ -33,7 +33,6 @@ public class CalibrationAutoCommand extends CommandBase {
             try {
                 throw new Exception("Unsupported command");
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -42,10 +41,6 @@ public class CalibrationAutoCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().setPosition(0);
-        m_driveSubsystem.getFrontRightSwerveModule().getDriveEncoder().setPosition(0);
-        m_driveSubsystem.getBackLeftSwerveModule().getDriveEncoder().setPosition(0);
-        m_driveSubsystem.getBackRightSwerveModule().getDriveEncoder().setPosition(0);
     }
 
     @Override
@@ -78,6 +73,8 @@ public class CalibrationAutoCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         switch(m_op){
+            case CMD_ANGLE:
+                break;
             case CMD_DISTANCE:
                 //Determine whether the target distance has been reached
                 m_driveSubsystem.setDriveMotors(0,0,0,0);

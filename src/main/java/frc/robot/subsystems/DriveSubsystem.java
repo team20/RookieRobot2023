@@ -61,10 +61,20 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveConstants.BackRightZero, 
         DriveConstants.kBackRightDriveInverted);
     }
+
+    resetEncoders();
   }
 
   public static DriveSubsystem get() {
     return s_subsystem;
+  }
+
+  public void resetEncoders() {
+    // Zero drive encoders
+    m_frontLeftSwerveModule.getDriveEncoder().setPosition(0);
+    m_frontRightSwerveModule.getDriveEncoder().setPosition(0);
+    m_backLeftSwerveModule.getDriveEncoder().setPosition(0);
+    m_backRightSwerveModule.getDriveEncoder().setPosition(0);
   }
 
  

@@ -54,22 +54,10 @@ public class CalibrationAutoCommand extends CommandBase {
         System.out.println(m_op == Operation.CMD_ANGLE);
         if (m_op == Operation.CMD_ANGLE) { 
             m_driveSubsystem.setSteerMotors(m_amount, m_amount, m_amount, m_amount);
-<<<<<<< Updated upstream
-        } else {
-            // reset drive encoders
-            m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().setPosition(0);
-            m_driveSubsystem.getFrontRightSwerveModule().getDriveEncoder().setPosition(0);
-            m_driveSubsystem.getBackLeftSwerveModule().getDriveEncoder().setPosition(0);
-            m_driveSubsystem.getBackRightSwerveModule().getDriveEncoder().setPosition(0);
-
-            // turn on motors - set 25% power for now
-            m_driveSubsystem.setDriveMotors(.25, .25, .25, .25);
-=======
         } else {      
             // turn on motors - set 20% power for now
             double m_powerLevel = 0.2;
             m_driveSubsystem.setDriveMotors(m_powerLevel, m_powerLevel, m_powerLevel, m_powerLevel);
->>>>>>> Stashed changes
         }
     }
 

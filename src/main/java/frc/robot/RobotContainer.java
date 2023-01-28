@@ -15,7 +15,6 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
-import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -29,7 +28,6 @@ public class RobotContainer {
   private final Joystick m_joystick = new Joystick(ControllerConstants.kDriverControllerPort);
   private final GenericHID m_controller = new GenericHID(ControllerConstants.kDriverControllerPort);
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final CameraSubsystem m_cameraSubsystem = new CameraSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -37,6 +35,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    CameraSystem.initCamera();
   }
 
   /**

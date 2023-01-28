@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -17,6 +19,14 @@ import com.revrobotics.SparkMaxPIDController.AccelStrategy;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+	public static final class CameraConstants { 
+		public static final int kFPS = 15;
+		public static final int kWidth = 400;
+		public static final int kHeight = 400;
+		public static final PixelFormat kCameraFormat = PixelFormat.kGray;
+	}
+
 	public static final class ControllerConstants {
 		public static final int kDriverControllerPort = 0;
 		public static final int kOperatorControllerPort = 1;

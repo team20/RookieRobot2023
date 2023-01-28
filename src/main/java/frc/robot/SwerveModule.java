@@ -27,12 +27,12 @@ public class SwerveModule {
         m_driveMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
         m_steerMotor = new CANSparkMax(steerPort, MotorType.kBrushless);
         m_driveEncoder = m_driveMotor.getEncoder();
-        m_driveEncoder.setPositionConversionFactor(SwerveConstants.kTicksToMeters);
         m_CANCoder.configMagnetOffset(-magnetOfset);
         configMotorController(m_driveMotor);
         m_driveMotor.setInverted(inverted);
         configMotorController(m_steerMotor);
         m_PIDController.enableContinuousInput(0, 360);
+
     }
 
     /***
@@ -68,6 +68,9 @@ public class SwerveModule {
         return this.m_driveEncoder;
     }
 
+    public double getDriveEncoderPosition() {
+        return this.m_driveEncoder.getPosition() * SwerveConstants.kTicksToMeters;
+    }
 
     public CANSparkMax getSteerMotor() {
         return this.m_steerMotor;

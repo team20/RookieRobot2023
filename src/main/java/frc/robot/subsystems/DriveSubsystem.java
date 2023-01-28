@@ -61,6 +61,10 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveConstants.BackRightZero, 
         DriveConstants.kBackRightDriveInverted);
     }
+    getFrontLeftSwerveModule().getDriveEncoder().setPosition(0);
+    getFrontRightSwerveModule().getDriveEncoder().setPosition(0);
+    getBackLeftSwerveModule().getDriveEncoder().setPosition(0);
+    getBackRightSwerveModule().getDriveEncoder().setPosition(0);
   }
 
   public static DriveSubsystem get() {
@@ -123,6 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   @Override
   public void periodic() {
+    System.out.println("running"); 
     // For each of our steer motors, feed the current angle of the wheel into its
     // PID controller, and use it to calculate the duty cycle for its motor, and
     // spin the motor
@@ -140,10 +145,10 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("BL PID Setpoint", m_backLeftSwerveModule.getPIDController().getSetpoint());
     SmartDashboard.putNumber("BR PID Setpoint", m_backRightSwerveModule.getPIDController().getSetpoint());
     
-    double m_flEncoderPos = m_frontLeftSwerveModule.getDriveEncoder().getPosition();
-    double m_frEncoderPos = m_frontRightSwerveModule.getDriveEncoder().getPosition();
-    double m_blEncoderPos = m_backLeftSwerveModule.getDriveEncoder().getPosition();
-    double m_brEncoderPos = m_backRightSwerveModule.getDriveEncoder().getPosition();
+    double m_flEncoderPos = m_frontLeftSwerveModule.getDriveEncoderPosition();
+    double m_frEncoderPos = m_frontRightSwerveModule.getDriveEncoderPosition();
+    double m_blEncoderPos = m_backLeftSwerveModule.getDriveEncoderPosition();
+    double m_brEncoderPos = m_backRightSwerveModule.getDriveEncoderPosition();
     
     SmartDashboard.putNumber("FL DriveEncoder", m_flEncoderPos);
     SmartDashboard.putNumber("FR DriveEncoder", m_frEncoderPos); 

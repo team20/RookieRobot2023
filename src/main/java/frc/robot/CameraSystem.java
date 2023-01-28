@@ -22,11 +22,11 @@ public class CameraSystem {
 
         //Display camera data on shuffleboard
         if(cameraData.length > 0){
-        UsbCameraInfo cam = cameraData[0];
-        SmartDashboard.putString("Name", cam.name);
-        SmartDashboard.putString("Path", cam.path);
-        SmartDashboard.putString("Vendor Id", String.valueOf(cam.vendorId));
-        SmartDashboard.putString("Product Id", String.valueOf(cam.productId));
+            UsbCameraInfo cam = cameraData[0];
+            SmartDashboard.putString("Name", cam.name);
+            SmartDashboard.putString("Path", cam.path);
+            SmartDashboard.putString("Vendor Id", String.valueOf(cam.vendorId));
+            SmartDashboard.putString("Product Id", String.valueOf(cam.productId));
         }
         tab.add(c);
     }

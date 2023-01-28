@@ -33,6 +33,7 @@ public class CalibrationAutoCommand extends CommandBase {
             try {
                 throw new Exception("Unsupported command");
             } catch (Exception e) {
+
                 e.printStackTrace();
             }
         }

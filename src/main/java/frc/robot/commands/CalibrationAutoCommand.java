@@ -53,10 +53,10 @@ public class CalibrationAutoCommand extends CommandBase {
             m_driveSubsystem.setSteerMotors(m_amount, m_amount, m_amount, m_amount);
         } else {
             // reset drive encoders
-            m_driveSubsystem.m_frontLeftDriveEncoder.setPosition(0);
-            m_driveSubsystem.m_frontRightDriveEncoder.setPosition(0);
-            m_driveSubsystem.m_backLeftDriveEncoder.setPosition(0);
-            m_driveSubsystem.m_backRightDriveEncoder.setPosition(0);
+            m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().setPosition(0);
+            m_driveSubsystem.getFrontRightSwerveModule().getDriveEncoder().setPosition(0);
+            m_driveSubsystem.getBackLeftSwerveModule().getDriveEncoder().setPosition(0);
+            m_driveSubsystem.getBackRightSwerveModule().getDriveEncoder().setPosition(0);
 
             // turn on motors - set 10% power for now
             m_driveSubsystem.setDriveMotors(.1, .1, .1, .1);
@@ -68,11 +68,11 @@ public class CalibrationAutoCommand extends CommandBase {
         switch(m_op){
             case CMD_ANGLE:
                 //The error between the actual angle and the target angle
-                double error = m_driveSubsystem.getFrontLeftCANCoder().getPosition() - Math.toRadians(m_amount);
+                double error = m_driveSubsystem.getFrontLeftSwerveModule().getCANCoder().getPosition() - Math.toRadians(m_amount);
                 return Math.abs(error) < Math.toRadians((1));
             case CMD_DISTANCE:
                 //Determine whether the target distance has been reached
-                return (m_driveSubsystem.m_frontLeftDriveEncoder.getPosition() >= m_amount);
+                return (m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().getPosition() >= m_amount);
         }
                 
         return false;

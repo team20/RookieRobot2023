@@ -102,9 +102,9 @@ public final class Constants {
 		public static final double wheelDiameter = 4; // in inches
 		public static final double ticksPerAxisRev = 42;
 
-		public static final double frontLeftZero = 124.89;
-		public static final double frontRightZero = 115.66;
-		public static final double backLeftZero = 277.47;
-		public static final double backRightZero = 212.73;
+		public static final double FrontLeftZero = 124.89;
+		public static final double FrontRightZero = 115.66;
+		public static final double BackLeftZero = 277.47;
+		public static final double BackRightZero = 212.73;
 	}
 }

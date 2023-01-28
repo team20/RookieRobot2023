@@ -139,6 +139,17 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FR PID Setpoint", m_frontRightSwerveModule.getPIDController().getSetpoint());
     SmartDashboard.putNumber("BL PID Setpoint", m_backLeftSwerveModule.getPIDController().getSetpoint());
     SmartDashboard.putNumber("BR PID Setpoint", m_backRightSwerveModule.getPIDController().getSetpoint());
+    
+    double m_flEncoderPos = m_frontLeftSwerveModule.getDriveEncoder().getPosition();
+    double m_frEncoderPos = m_frontRightSwerveModule.getDriveEncoder().getPosition();
+    double m_blEncoderPos = m_backLeftSwerveModule.getDriveEncoder().getPosition();
+    double m_brEncoderPos = m_backRightSwerveModule.getDriveEncoder().getPosition();
+    
+    SmartDashboard.putNumber("FL DriveEncoder", m_flEncoderPos);
+    SmartDashboard.putNumber("FR DriveEncoder", m_frEncoderPos); 
+    SmartDashboard.putNumber("BL DriveEncoder", m_blEncoderPos); 
+    SmartDashboard.putNumber("BR DriveEncoder", m_brEncoderPos); 
+    
   }
 
 

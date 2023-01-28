@@ -12,19 +12,22 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.SwerveConstants;
 
 /** Add your docs here. */
 public class SwerveModule {
     private PIDController m_PIDController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD, DriveConstants.kSteerPeriod);
     private CANCoder m_CANCoder;
     private CANSparkMax m_driveMotor;
-    public RelativeEncoder m_driveEncoder = m_driveMotor.getEncoder();
+    public RelativeEncoder m_driveEncoder;
     private CANSparkMax m_steerMotor;
 
     public SwerveModule(int CANport, int drivePort, int steerPort, double magnetOfset, boolean inverted){
         m_CANCoder = new CANCoder(CANport);
         m_driveMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
         m_steerMotor = new CANSparkMax(steerPort, MotorType.kBrushless);
+        m_driveEncoder = m_driveMotor.getEncoder();
+        m_driveEncoder.setPositionConversionFactor(SwerveConstants.kTicksToMeters);
         m_CANCoder.configMagnetOffset(-magnetOfset);
         configMotorController(m_driveMotor);
         m_driveMotor.setInverted(inverted);

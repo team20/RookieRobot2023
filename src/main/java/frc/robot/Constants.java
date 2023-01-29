@@ -56,15 +56,15 @@ public final class Constants {
 	}
 
 	public static final class DriveConstants {
-		// CAN IDs
-		public static final int kFrontRightDrivePort = 3;
-		public static final int kFrontRightSteerPort = 4;
-		public static final int kFrontLeftDrivePort = 1;
-		public static final int kFrontLeftSteerPort = 2;
-		public static final int kBackRightDrivePort = 7;
-		public static final int kBackRightSteerPort = 11;
-		public static final int kBackLeftDrivePort = 6;
-		public static final int kBackLeftSteerPort = 5;
+		// CAN IDs (updated)
+		public static final int kFrontRightDrivePort = 4;
+		public static final int kFrontRightSteerPort = 5;
+		public static final int kFrontLeftDrivePort = 2;
+		public static final int kFrontLeftSteerPort = 3;
+		public static final int kBackRightDrivePort = 8;
+		public static final int kBackRightSteerPort = 9;
+		public static final int kBackLeftDrivePort = 7;
+		public static final int kBackLeftSteerPort = 6;
 		public static final int kFrontRightCANCoderPort = 14;
 		public static final int kFrontLeftCANCoderPort = 13;
 		public static final int kBackRightCANCoderPort = 15;

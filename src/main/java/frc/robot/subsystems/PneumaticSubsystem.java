@@ -23,6 +23,39 @@ public class PneumaticSubsystem extends SubsystemBase {
         Compressor m_compressor = new Compressor(1, PneumaticsModuleType.REVPH);
         DoubleSolenoid m_solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, solPort1, solPort2); // TODO: check ports, currently guessing
     }
+    // TODO: check this idk
+    private PneumaticSubsystem clawPneumatic(2, 3);
+    private PneumaticSubsystem pivotPneumatic(4, 5);
+    private PneumaticSubsystem pressurePneumatic(6, 7);
+    private PneumaticSubsystem smthPneumatic(8, 9);
 
+    public static final class IntakeMethods {
+		// for intake pneumatics but we don't have intake pneumatics so something's wrong here but we don't really care
+        public void stop() {
+            compressor.disable();
+        }
     
+        public void lowerIntake() {
+            intake.set(DoubleSolenoid.Value.kReverse);
+        }
+    
+        public void raiseIntake() {
+            intake.set(DoubleSolenoid.Value.kForward);
+        }
+    
+        public void toggleIntake() {
+            intake.toggle();
+        }
+	}
+    
+    public static final class ClawMethods {
+		// we actually have something for this so yay
+        public void openClaw() {
+            claw.set(DoubleSolenoid.Value.kForward);
+        }
+    
+        public void closeClaw() {
+            claw.set(DoubleSolenoid.Value.kReverse);
+        }   
+	}
 }

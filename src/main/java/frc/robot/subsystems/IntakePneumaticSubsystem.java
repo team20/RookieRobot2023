@@ -12,27 +12,33 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.robot.Constants;
 
-public class HatchCollectorSubsystem extends SubsystemBase {
+public class IntakePneumaticSubsystem extends SubsystemBase {
 
     Compressor compressor;
-    DoubleSolenoid claw; //first number is forward channel, second number is reverse channel
+    DoubleSolenoid intake; 
 
-    /**
-     * Creates a new ExampleSubsystem.
-     */
-    public HatchCollectorSubsystem() {
+    public IntakePneumaticSubsystem() {
         compressor = new Compressor(1, PneumaticsModuleType.REVPH);
 
-        claw = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3); //first number is forward channel, second number is reverse channel
+        intake = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5); // TODO: check ports, currently guessing
+    }
+    
+    public void stop() {
+        compressor.disable();
     }
 
-    public void openClaw() {
-        claw.set(DoubleSolenoid.Value.kForward);
+    public void lowerIntake() {
+        intake.set(DoubleSolenoid.Value.kReverse);
     }
 
-    public void closeClaw() {
-        claw.set(DoubleSolenoid.Value.kReverse);
+    public void raiseIntake() {
+        intake.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void toggleIntake() {
+        intake.toggle();
     }
 
     @Override

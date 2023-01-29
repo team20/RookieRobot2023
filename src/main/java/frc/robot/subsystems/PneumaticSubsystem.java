@@ -20,7 +20,9 @@ public class PneumaticSubsystem extends SubsystemBase {
     DoubleSolenoid intake; 
 
     public PneumaticSubsystem(int solPort1, int solPort2) {
-        m_compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-        m_solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, solPort1, solPort2); // TODO: check ports, currently guessing
+        Compressor m_compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+        DoubleSolenoid m_solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, solPort1, solPort2); // TODO: check ports, currently guessing
     }
+
+    
 }

@@ -13,26 +13,38 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class CounterWeightSubsystem extends SubsystemBase {
-  private CANSparkMax m_counterWeightMotor = new CANSparkMax(DriveConstants.kcounterWeightMotor, MotorType.kBrushless);
-  public RelativeEncoder m_counterWeightEncoder = m_counterWeightMotor.getEncoder();
+  private CANSparkMax m_counterWeightMotor = new CANSparkMax(DriveConstants.kCounterWeightPort, MotorType.kBrushless);
+  public RelativeEncoder m_counterWeightMotorEncoder = m_counterWeightMotor.getEncoder();
   private static CounterWeightSubsystem s_subsystem;
   
+  /** Creates a new CounterWeightSubsystem. */
   public CounterWeightSubsystem() {
+    // Singleton
     if (s_subsystem != null) {
       try {
-        throw new Exception("Motor subsystem already initalized!");
+        throw new Exception("Counterweight subsystem already initalized!");
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
     s_subsystem = this;
 
-    // Initialize motors, PID controllers
-    {
+     // Initialize motors, PID controllers
+     {
       configMotorController(m_counterWeightMotor);
     }
   }
 
+  public static CounterWeightSubsystem get() {
+    return s_subsystem;
+  }
+
+  /***
+   * Configures our motors with the exact same settings
+   * 
+   * @param motorController
+   *                        The CANSparkMax to configure
+   */
   public static void configMotorController(CANSparkMax motorController) {
     motorController.restoreFactoryDefaults();
     motorController.setIdleMode(IdleMode.kBrake);
@@ -41,14 +53,13 @@ public class CounterWeightSubsystem extends SubsystemBase {
   }
 
   /**
-  * Makes our drive motors spin at the specified speeds
-  * 
-  * @param counterWeightMotorSpeed
-  *                        Speed of the front left wheel in duty cycles [-1, 1]
-  */
-
-  public void setDriveMotors(double counterWeightMotorSpeed) {
-    m_counterWeightMotor.set(counterWeightMotorSpeed);
+   * Makes our drive motors spin at the specified speeds
+   * 
+   * @param counterWeightSpeed
+   *                        Speed of the front left wheel in duty cycles [-1, 1]
+   */
+  public void setDriveMotors(double counterWeightSpeed) {
+    m_counterWeightMotor.set(counterWeightSpeed);
   }
 
   @Override

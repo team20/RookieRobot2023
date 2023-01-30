@@ -133,14 +133,16 @@ public class DriveSubsystem extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    System.out.println("running"); 
+    // System.out.println("running"); 
     // For each of our steer motors, feed the current angle of the wheel into its
     // PID controller, and use it to calculate the duty cycle for its motor, and
     // spin the motor
-    m_frontLeftSwerveModule.getSteerMotor().set(m_frontLeftSwerveModule.getPIDController() .calculate(m_frontLeftSwerveModule.getCANCoder().getAbsolutePosition()));
+
+    m_frontLeftSwerveModule.getSteerMotor().set(m_frontLeftSwerveModule.getPIDController().calculate(m_frontLeftSwerveModule.getCANCoder().getAbsolutePosition()));
     m_frontRightSwerveModule.getSteerMotor().set(m_frontRightSwerveModule.getPIDController().calculate(m_frontRightSwerveModule.getCANCoder().getAbsolutePosition()));
-    m_backLeftSwerveModule.getSteerMotor().set(m_backLeftSwerveModule.getPIDController()  .calculate(m_backLeftSwerveModule.getCANCoder().getAbsolutePosition()));
-    m_backRightSwerveModule.getSteerMotor().set(m_backRightSwerveModule.getPIDController() .calculate(m_backRightSwerveModule.getCANCoder().getAbsolutePosition()));
+    m_backLeftSwerveModule.getSteerMotor().set(m_backLeftSwerveModule.getPIDController().calculate(m_backLeftSwerveModule.getCANCoder().getAbsolutePosition()));
+    m_backRightSwerveModule.getSteerMotor().set(m_backRightSwerveModule.getPIDController().calculate(m_backRightSwerveModule.getCANCoder().getAbsolutePosition()));
+    
     // Logging
     SmartDashboard.putNumber("FL CANCoder Rotation", m_frontLeftSwerveModule.getCANCoder().getAbsolutePosition());
     SmartDashboard.putNumber("FR CANCoder Rotation", m_frontRightSwerveModule.getCANCoder().getAbsolutePosition());

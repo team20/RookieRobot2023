@@ -32,13 +32,15 @@ public class SwerveModule {
         m_driveMotor.setInverted(inverted);
         configMotorController(m_steerMotor);
         m_PIDController.enableContinuousInput(0, 360);
-
+        m_driveEncoder.setPositionConversionFactor(1/SwerveConstants.kMotorRevsPerMeter);
     }
-
     /***
      * Configures our motors with the exact same settings
      * 
-     * @param motorController
+     * @param motorController);
+
+    }
+
      *                        The CANSparkMax to configure
      */
     public static void configMotorController(CANSparkMax motorController) {
@@ -69,7 +71,7 @@ public class SwerveModule {
     }
 
     public double getDriveEncoderPosition() {
-        return this.m_driveEncoder.getPosition() * SwerveConstants.kTicksToMeters;
+        return this.m_driveEncoder.getPosition();
     }
 
     public CANSparkMax getSteerMotor() {

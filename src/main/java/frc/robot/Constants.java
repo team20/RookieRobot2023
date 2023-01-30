@@ -103,7 +103,7 @@ public final class Constants {
 		// public static final double ticksPerAxisRev = 42;
 
         public static final double kTicksToMeters = (1/gearRatio) * Math.PI * wheelDiameter;
-
+		public static final double kMotorRevsPerMeter = gearRatio/(Math.PI * wheelDiameter);
 
 		public static final double FrontLeftZero = 124.89;
 		public static final double FrontRightZero = 115.66;

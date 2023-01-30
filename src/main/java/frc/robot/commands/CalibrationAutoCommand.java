@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -11,7 +12,7 @@ public class CalibrationAutoCommand extends CommandBase {
     }
 
     Operation m_op;
-    double m_amount = 0; // if distance, in ticks; if angle, in degrees
+    double m_amount = 0; // if distance, in meters; if angle, in degrees
   /***
    * Autonomous command to steer and drive
    * 
@@ -46,7 +47,7 @@ public class CalibrationAutoCommand extends CommandBase {
 
     @Override
     public void execute() {
-        System.out.println(m_op == Operation.CMD_ANGLE);
+        // System.out.println(m_op == Operation.CMD_ANGLE);
         if (m_op == Operation.CMD_ANGLE) { 
             m_driveSubsystem.setSteerMotors(m_amount, m_amount, m_amount, m_amount);
         } else {      
@@ -60,6 +61,7 @@ public class CalibrationAutoCommand extends CommandBase {
     public boolean isFinished() {
         switch(m_op){
             case CMD_ANGLE:
+                SmartDashboard.putNumber("CAC angle", m_amount);
                 //The error between the actual angle and the target angle
                 double error = m_driveSubsystem.getFrontLeftSwerveModule().getCANCoder().getPosition() - m_amount;
                 return (Math.abs(error) < 2);
@@ -75,6 +77,7 @@ public class CalibrationAutoCommand extends CommandBase {
     public void end(boolean interrupted) {
         switch(m_op){
             case CMD_ANGLE:
+                SmartDashboard.putNumber("CAC end", m_amount);
                 break;
             case CMD_DISTANCE:
                 //Determine whether the target distance has been reached

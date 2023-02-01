@@ -10,12 +10,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.DriveConstants;
+
 
 public class CounterWeightSubsystem extends SubsystemBase {
   private CANSparkMax m_counterWeightMotor = new CANSparkMax(DriveConstants.kCounterWeightPort, MotorType.kBrushless);
   public RelativeEncoder m_counterWeightMotorEncoder = m_counterWeightMotor.getEncoder();
   private static CounterWeightSubsystem s_subsystem;
+  DigitalInput toplimitSwitch = new DigitalInput(0);
+  DigitalInput bottomlimitSwitch = new DigitalInput(1);
   
   /** Creates a new CounterWeightSubsystem. */
   public CounterWeightSubsystem() {
@@ -58,8 +62,24 @@ public class CounterWeightSubsystem extends SubsystemBase {
    * @param counterWeightSpeed
    *                        Speed of the front left wheel in duty cycles [-1, 1]
    */
-  public void setDriveMotors(double counterWeightSpeed) {
-    m_counterWeightMotor.set(counterWeightSpeed);
+  public void setDriveMotors(double speed) {
+    if (speed > 0) {
+      if (toplimitSwitch.get()) {
+          // We are going up and top limit is tripped so stop
+          m_counterWeightMotor.set(0);
+      } else {
+          // We are going up but top limit is not tripped so go at commanded speed
+          m_counterWeightMotor.set(speed);
+      }
+    } else {
+      if (bottomlimitSwitch.get()) {
+          // We are going down and bottom limit is tripped so stop
+          m_counterWeightMotor.set(0);
+      } else {
+          // We are going down but bottom limit is not tripped so go at commanded speed
+          m_counterWeightMotor.set(speed);
+      }
+    }
   }
 
   @Override

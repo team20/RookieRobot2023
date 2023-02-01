@@ -27,7 +27,8 @@ public class CalibrationAutoCommand extends CommandBase {
         m_driveSubsystem = DriveSubsystem.get();
         m_op = op;
         if (m_op == Operation.CMD_DISTANCE) {
-            m_amount = amount; 
+            double currentPosition = (m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().getPosition());
+            m_amount = currentPosition + amount; 
         } else if (m_op == Operation.CMD_ANGLE) { 
             m_amount = amount;
         } else {
@@ -61,12 +62,17 @@ public class CalibrationAutoCommand extends CommandBase {
     public boolean isFinished() {
         switch(m_op){
             case CMD_ANGLE:
-                SmartDashboard.putNumber("CAC angle", m_amount);
+                double encAng = m_driveSubsystem.getFrontLeftSwerveModule().getCANCoder().getPosition() % 360;
+                double ang1 = encAng - 360;
                 //The error between the actual angle and the target angle
-                double error = m_driveSubsystem.getFrontLeftSwerveModule().getCANCoder().getPosition() - m_amount;
-                return (Math.abs(error) < 2);
+                double diff1 = Math.abs(encAng - m_amount);
+                double diff2 = Math.abs(ang1 - m_amount);
+                return (Math.min(diff1, diff2) < 2); // 2 degree tolerance 
             case CMD_DISTANCE:
                 //Determine whether the target distance has been reached
+                double currentPosition = (m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().getPosition());
+                SmartDashboard.putNumber("currentPostion", currentPosition);
+                SmartDashboard.putNumber("m_amount", m_amount);
                 return (m_driveSubsystem.getFrontLeftSwerveModule().getDriveEncoder().getPosition() >= m_amount);
         }
                 

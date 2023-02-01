@@ -57,6 +57,7 @@ public final class Constants {
 
 	public static final class DriveConstants {
 		// CAN IDs (updated)
+		public static final int kCounterWeightPort = 17;
 		public static final int kFrontRightDrivePort = 4;
 		public static final int kFrontRightSteerPort = 5;
 		public static final int kFrontLeftDrivePort = 2;

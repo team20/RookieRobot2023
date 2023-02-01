@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.SwerveConstants;
 
 public class CalibrationAutoCommand extends CommandBase {
     private final DriveSubsystem m_driveSubsystem;
@@ -27,8 +28,7 @@ public class CalibrationAutoCommand extends CommandBase {
         m_driveSubsystem = DriveSubsystem.get();
         m_op = op;
         if (m_op == Operation.CMD_DISTANCE) {
-            double wheelCirc = Math.PI * Constants.SwerveConstants.wheelDiameter;
-            double metersToTicks = (Constants.SwerveConstants.ticksPerAxisRev * Constants.SwerveConstants.gearRatio * 39.37) / wheelCirc;
+            double metersToTicks = SwerveConstants.kTicksToMeters / 1.0;
             m_amount = amount * metersToTicks; 
         } else if (m_op == Operation.CMD_ANGLE) { 
             m_amount = amount;

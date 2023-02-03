@@ -84,6 +84,6 @@ public class CounterWeightSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_counterWeightMotor.set(.2);
+    m_counterWeightMotor.set(.5);
   }
 }

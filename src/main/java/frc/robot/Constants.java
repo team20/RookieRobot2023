@@ -20,7 +20,7 @@ public final class Constants {
 	public static final class ControllerConstants {
 		public static final int kDriverControllerPort = 0;
 		public static final int kOperatorControllerPort = 1;
-		public static final double kDeadzone = 0.1;
+		public static final double kDeadzone = 0.2;
 		public static final double kTriggerDeadzone = .05;
 
 		public static final class Axis {
@@ -106,9 +106,19 @@ public final class Constants {
         public static final double kTicksToMeters = (1/gearRatio) * Math.PI * wheelDiameter;
 		public static final double kMotorRevsPerMeter = gearRatio/(Math.PI * wheelDiameter);
 
+
+		// These set points resulted in back being front, front is back
 		public static final double FrontLeftZero = 124.89;
 		public static final double FrontRightZero = 115.66;
 		public static final double BackLeftZero = 277.47;
 		public static final double BackRightZero = 212.73;
+
+		// These encoder set points should be correct
+		// public static final double FrontLeftZero = -56.89;
+		// public static final double FrontRightZero = -65.66;
+		// public static final double BackLeftZero = 97.47;
+		// public static final double BackRightZero = 32.73;
+
+
 	}
 }

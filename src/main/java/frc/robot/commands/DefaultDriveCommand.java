@@ -55,11 +55,15 @@ public class DefaultDriveCommand extends CommandBase {
     double fwdSpeed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
     double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
     double rotSpeed = MathUtil.applyDeadband(m_rotationAxis.get(), ControllerConstants.kDeadzone);
-    // Random intermediate math
+    
+    
+    // Orig Random intermediate math
     double a = strSpeed - rotSpeed * (m_wheelBase / 2);
     double b = strSpeed + rotSpeed * (m_wheelBase / 2);
     double c = fwdSpeed - rotSpeed * (m_trackWidth / 2);
     double d = fwdSpeed + rotSpeed * (m_trackWidth / 2);
+
+
     // Calculate the wheel speeds
     double frontRightSpeed = Math.sqrt(b * b + c * c);
     double frontLeftSpeed = Math.sqrt(b * b + d * d);
@@ -86,10 +90,13 @@ public class DefaultDriveCommand extends CommandBase {
       backLeftSpeed /= highestSpeed;
     }
     // Calculate the wheel angles in degrees
-    double frontRightAngle = Math.toDegrees(Math.atan2(b, c));
-    double frontLeftAngle = Math.toDegrees(Math.atan2(b, d));
-    double backRightAngle = Math.toDegrees(Math.atan2(a, c));
-    double backLeftAngle = Math.toDegrees(Math.atan2(a, d));
+    double rotAngleOffset = (90 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    double frontRightAngle = Math.toDegrees(Math.atan2(b, c) + rotAngleOffset);
+    double frontLeftAngle = Math.toDegrees(Math.atan2(b, d) - rotAngleOffset);
+    double backRightAngle = Math.toDegrees(Math.atan2(a, c)) - rotAngleOffset;
+    double backLeftAngle = Math.toDegrees(Math.atan2(a, d) + rotAngleOffset);
+
+    
     // SmartDashboard logging
     {
       SmartDashboard.putNumber("Foward Speed", fwdSpeed);
@@ -109,7 +116,7 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("Back Left Wheel Angle", backLeftAngle);
     }
 
-    if(Math.abs(fwdSpeed) + Math.abs(strSpeed) > 0.1){
+    if(Math.abs(fwdSpeed) + Math.abs(strSpeed) + Math.abs(rotSpeed) > 0.1){
       // Move the robot
       m_driveSubsystem.setSteerMotors(frontLeftAngle, frontRightAngle, backLeftAngle, backRightAngle);
     }

@@ -120,11 +120,6 @@ public final class Constants {
 	}
 
 	public static final class SwerveConstants {
-<<<<<<< Updated upstream
-		public static final double gearRatio = 8.14;
-		public static final double wheelDiameter = 4; // in inches
-		public static final double ticksPerAxisRev = 42;
-=======
 		// The file containing the auto path 
 		// Generated using PathWeaver 2023
 		public static final String kPathTrajectoryFile = "paths/ChargeStation.wpilib.json";
@@ -140,6 +135,5 @@ public final class Constants {
 		public static final double kFrontRightZero = 115.66;
 		public static final double kBackLeftZero = 277.47;
 		public static final double kBackRightZero = 212.73;
->>>>>>> Stashed changes
 	}
 }

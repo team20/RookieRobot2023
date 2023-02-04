@@ -103,10 +103,6 @@ public class RobotContainer {
 
       /*
     return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),
-<<<<<<< Updated upstream
-                                      new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
-  }
-=======
                                      new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 2),
                                       new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 90),
                                       new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 2),
@@ -116,5 +112,4 @@ public class RobotContainer {
                                       new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 2));
                                        */
   } 
->>>>>>> Stashed changes
 }

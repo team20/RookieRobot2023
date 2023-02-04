@@ -109,7 +109,7 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("Back Left Wheel Angle", backLeftAngle);
     }
 
-    if(fwdSpeed > 0.1 || strSpeed > 0.1){
+    if(fwdSpeed > 0.1 || fwdSpeed < -0.1 || strSpeed > 0.1 || strSpeed < -0.1){
       // Move the robot
       m_driveSubsystem.setSteerMotors(frontLeftAngle, frontRightAngle, backLeftAngle, backRightAngle);
     }

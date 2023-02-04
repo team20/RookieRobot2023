@@ -6,6 +6,10 @@ package frc.robot;
 
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -80,9 +84,26 @@ public final class Constants {
 		public static final double kMaxOutput = 1.0;
 		public static final AccelStrategy kTrapezoidal = AccelStrategy.kTrapezoidal;
 		public static final int kSlotID = 0;
-		public static final double kMaxAcel = 0;
-		public static final double kMaxVelocity = 0;
-		public static final double kAllowedError = 0;
+		public static final double kMaxAcel = 0.5;		//TODO Calculate Meters Per Second
+		public static final double kMaxVelocity = 2;	//TODO Calculate Meters Per Second
+		public static final double kAllowedError = 0;	//TODO Calculate Meters Per Second
+
+		public static final TrapezoidProfile.Constraints kContraints = new TrapezoidProfile.Constraints(DriveConstants.kMaxVelocity, DriveConstants.kMaxAcel);
+		
+		
+		private static final double halfWidth = DriveConstants.kTrackWidth / 2.0;
+		private static final double halfBase = DriveConstants.kWheelBase / 2.0;
+
+		// Locations for the swerve drive modules relative to the robot center.
+		public static final Translation2d kFrontLeftLocation = new Translation2d(halfWidth, halfBase);
+		public static final Translation2d kFrontRightLocation = new Translation2d(halfWidth, -halfBase);
+		public static final Translation2d kBackLeftLocation = new Translation2d(-halfWidth, halfBase);
+		public static final Translation2d kBackRightLocation = new Translation2d(-halfWidth, -halfBase);
+
+		public static final SwerveDriveKinematics kSwerveKinematics = new SwerveDriveKinematics(kFrontLeftLocation, kFrontRightLocation, kBackLeftLocation, kBackRightLocation);
+
+
+
 		public static final double kMinVelocity = 0;
 		/*** Distance between center of front wheel and center of back wheel */
 		public static final double kWheelBase = 22.5;
@@ -99,8 +120,26 @@ public final class Constants {
 	}
 
 	public static final class SwerveConstants {
+<<<<<<< Updated upstream
 		public static final double gearRatio = 8.14;
 		public static final double wheelDiameter = 4; // in inches
 		public static final double ticksPerAxisRev = 42;
+=======
+		// The file containing the auto path 
+		// Generated using PathWeaver 2023
+		public static final String kPathTrajectoryFile = "paths/ChargeStation.wpilib.json";
+
+		public static final double kGearRatio = 8.14;
+		public static final double kWheelDiameter = 0.1016;  // in meters
+		// public static final double kTicksPerAxisRev = 42;
+
+        public static final double kTicksToMeters = (1/kGearRatio) * Math.PI * kWheelDiameter;
+		public static final double kMotorRevsPerMeter = kGearRatio/(Math.PI * kWheelDiameter);
+
+		public static final double kFrontLeftZero = 124.89;
+		public static final double kFrontRightZero = 115.66;
+		public static final double kBackLeftZero = 277.47;
+		public static final double kBackRightZero = 212.73;
+>>>>>>> Stashed changes
 	}
 }

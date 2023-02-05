@@ -79,10 +79,10 @@ public class DefaultDriveCommand extends CommandBase {
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -45));
 
     // Calculate the wheel speeds
-    double frontRightSpeed = Math.sqrt(b * b + c * c);
     double frontLeftSpeed = Math.sqrt(b * b + d * d);
-    double backRightSpeed = Math.sqrt(a * a + c * c);
+    double frontRightSpeed = Math.sqrt(b * b + c * c);
     double backLeftSpeed = Math.sqrt(a * a + d * d);
+    double backRightSpeed = Math.sqrt(a * a + c * c);
     // Initalizing the highest speed, saves one if statement
     double highestSpeed = frontRightSpeed;
     // Normalize wheel speeds if they are calculated to be over 1
@@ -115,20 +115,20 @@ public class DefaultDriveCommand extends CommandBase {
     // double backLeftAngle = Math.toDegrees(Math.atan2(a, d) + blOffset);
 
     double frontLeftAngle = Math.toDegrees(Math.atan2(b, d));
-    double frontRightAngle = Math.toDegrees(Math.atan2(b, c));
+    double frontRightAngle = Math.toDegrees(Math.atan2(a, d));
+    double backLeftAngle = Math.toDegrees(Math.atan2(b, c));
     double backRightAngle = Math.toDegrees(Math.atan2(a, c));
-    double backLeftAngle = Math.toDegrees(Math.atan2(a, d));
 
     
     // SmartDashboard logging
     {
-      SmartDashboard.putNumber("Foward Speed", fwdSpeed);
-      SmartDashboard.putNumber("Strafe Speed", strSpeed);
-      SmartDashboard.putNumber("Rotation Speed", rotSpeed);
-      SmartDashboard.putNumber("a", a);
-      SmartDashboard.putNumber("b", b);
-      SmartDashboard.putNumber("c", c);
-      SmartDashboard.putNumber("d", d);
+      // SmartDashboard.putNumber("Foward Speed", fwdSpeed);
+      // SmartDashboard.putNumber("Strafe Speed", strSpeed);
+      // SmartDashboard.putNumber("Rotation Speed", rotSpeed);
+      // SmartDashboard.putNumber("a", a);
+      // SmartDashboard.putNumber("b", b);
+      // SmartDashboard.putNumber("c", c);
+      // SmartDashboard.putNumber("d", d);
       // SmartDashboard.putNumber("Front Right Wheel Speed", frontRightSpeed);
       // SmartDashboard.putNumber("Front Left Wheel Speed", frontLeftSpeed);
       // SmartDashboard.putNumber("Back Right Wheel Speed", backRightSpeed);

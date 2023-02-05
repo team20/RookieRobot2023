@@ -55,11 +55,27 @@ public class DefaultDriveCommand extends CommandBase {
     double fwdSpeed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
     double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
     double rotSpeed = MathUtil.applyDeadband(m_rotationAxis.get(), ControllerConstants.kDeadzone);
+
+    double leftStickMagnitude = Math.sqrt( fwdSpeed * fwdSpeed + strSpeed * strSpeed);
+    double leftStickAngle = Math.atan2(fwdSpeed, strSpeed);
+    /* 
     // Random intermediate math
     double a = strSpeed - rotSpeed * (m_wheelBase / 2);
     double b = strSpeed + rotSpeed * (m_wheelBase / 2);
     double c = fwdSpeed - rotSpeed * (m_trackWidth / 2);
     double d = fwdSpeed + rotSpeed * (m_trackWidth / 2);
+    */
+
+    float Deg2Rad = 0.0174532924F;
+    // The y component of the FL and FR wheels
+    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.sin(Deg2Rad * -135));
+    // The y component of the BL and BR wheels
+    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.sin(Deg2Rad * -225));
+    //The x component of the FL and BL
+    double d = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -135));
+    //The x component of the FR and BR
+    double c = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -45));
+
     // Calculate the wheel speeds
     double frontRightSpeed = Math.sqrt(b * b + c * c);
     double frontLeftSpeed = Math.sqrt(b * b + d * d);

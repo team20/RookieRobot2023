@@ -90,10 +90,10 @@ public class DefaultDriveCommand extends CommandBase {
       backLeftSpeed /= highestSpeed;
     }
     // Calculate the wheel angles in degrees
-    double flOffset = (115 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    double frOffset = (118 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    double blOffset = (143 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    double brOffset = (90 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    double flOffset = (132.92 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    double frOffset = (127.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    double blOffset = (147.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    double brOffset = (91.14 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
 
     double frontLeftAngle = Math.toDegrees(Math.atan2(b, d) + flOffset);
     double frontRightAngle = Math.toDegrees(Math.atan2(b, c) + frOffset);

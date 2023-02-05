@@ -107,10 +107,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setDriveMotors(double frontLeftSpeed, double frontRightSpeed, double backLeftSpeed,
       double backRightSpeed) {
-    m_frontLeftSwerveModule.getDriveMotor().set(frontLeftSpeed);
-    m_frontRightSwerveModule.getDriveMotor().set(frontRightSpeed);
-    m_backLeftSwerveModule.getDriveMotor().set(backLeftSpeed);
-    m_backRightSwerveModule.getDriveMotor().set(backRightSpeed);
+    m_frontLeftSwerveModule.getDriveMotor().set(frontLeftSpeed * DriveConstants.kDriveScale);
+    m_frontRightSwerveModule.getDriveMotor().set(frontRightSpeed * DriveConstants.kDriveScale);
+    m_backLeftSwerveModule.getDriveMotor().set(backLeftSpeed * DriveConstants.kDriveScale);
+    m_backRightSwerveModule.getDriveMotor().set(backRightSpeed * DriveConstants.kDriveScale);
   }
 
   /***

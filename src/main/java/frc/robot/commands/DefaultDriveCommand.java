@@ -67,7 +67,7 @@ public class DefaultDriveCommand extends CommandBase {
     */
 
     float Deg2Rad = 0.0174532924F;
-    double gyroAngle = 0;//Deg2Rad * m_driveSubsystem.getHeading();
+    double gyroAngle = Deg2Rad * m_driveSubsystem.getHeading();
 
     // The y component of the FL and BL wheels
     double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * 135));

@@ -67,16 +67,6 @@ public class DefaultDriveCommand extends CommandBase {
     */
 
     float Deg2Rad = 0.0174532924F;
-<<<<<<< HEAD
-    // The y component of the FL and FR wheels
-    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.sin(Deg2Rad * -135));
-    // The y component of the BL and BR wheels
-    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.sin(Deg2Rad * -225));
-    //The x component of the FL and BL
-    double d = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -135));
-    //The x component of the FR and BR
-    double c = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -45));
-=======
     double gyroAngle = Deg2Rad * m_driveSubsystem.getHeading();
 
     // The y component of the FL and FR wheels
@@ -87,7 +77,6 @@ public class DefaultDriveCommand extends CommandBase {
     double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -135));
     //The x component of the FR and BR
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -45));
->>>>>>> 8668b75da5d65bc0944a3f22449d59a0e3370b70
 
     // Calculate the wheel speeds
     double frontRightSpeed = Math.sqrt(b * b + c * c);

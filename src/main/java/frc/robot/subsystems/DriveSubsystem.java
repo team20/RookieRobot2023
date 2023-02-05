@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SwerveModule;
@@ -16,7 +19,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveModule m_backLeftSwerveModule;
   private SwerveModule m_backRightSwerveModule;
   private static DriveSubsystem s_subsystem;
-
+  private AHRS m_gyro = new AHRS(SPI.Port.kMXP); 
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -61,8 +64,17 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveConstants.BackRightZero, 
         DriveConstants.kBackRightDriveInverted);
     }
-
+    new Thread(() -> {
+        try{
+          Thread.sleep(1000);
+          m_gyro.reset();
+        }catch(Exception e){}
+    });
     resetEncoders();
+  }
+
+  public double getHeading(){
+    return m_gyro.getAngle();
   }
 
   public static DriveSubsystem get() {
@@ -75,12 +87,6 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRightSwerveModule.getDriveEncoder().setPosition(0);
     m_backLeftSwerveModule.getDriveEncoder().setPosition(0);
     m_backRightSwerveModule.getDriveEncoder().setPosition(0);
-  }
-
- 
-
-  public double getHeading() {
-    return 0;
   }
 
   public void setWheelRotationToZeroDegrees() {

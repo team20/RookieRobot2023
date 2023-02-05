@@ -67,17 +67,7 @@ public class DefaultDriveCommand extends CommandBase {
     */
 
     float Deg2Rad = 0.0174532924F;
-<<<<<<< HEAD
-    // The y component of the FL and FR wheels
-    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.sin(Deg2Rad * -135));
-    // The y component of the BL and BR wheels
-    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.sin(Deg2Rad * -225));
-    //The x component of the FL and BL
-    double d = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -135));
-    //The x component of the FR and BR
-    double c = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -45));
-=======
-    double gyroAngle = Deg2Rad * m_driveSubsystem.getHeading();
+    double gyroAngle = 0;//Deg2Rad * m_driveSubsystem.getHeading();
 
     // The y component of the FL and BL wheels
     double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * -135));
@@ -87,7 +77,6 @@ public class DefaultDriveCommand extends CommandBase {
     double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -135));
     //The x component of the BL and BR
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -45));
->>>>>>> 8668b75da5d65bc0944a3f22449d59a0e3370b70
 
     // Calculate the wheel speeds
     double frontLeftSpeed = Math.sqrt(b * b + d * d);
@@ -148,6 +137,7 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("Front Left Wheel Angle", frontLeftAngle);
       SmartDashboard.putNumber("Back Right Wheel Angle", backRightAngle);
       SmartDashboard.putNumber("Back Left Wheel Angle", backLeftAngle);
+      SmartDashboard.putNumber("NAVX", m_driveSubsystem.getHeading());
     }
 
     if(fwdSpeed > 0.1 || fwdSpeed < -0.1 || strSpeed > 0.1 || strSpeed < -0.1){

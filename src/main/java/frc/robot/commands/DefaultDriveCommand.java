@@ -55,22 +55,15 @@ public class DefaultDriveCommand extends CommandBase {
     double fwdSpeed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
     double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
     double rotSpeed = MathUtil.applyDeadband(m_rotationAxis.get(), ControllerConstants.kDeadzone);
-<<<<<<< HEAD
 
     double leftStickMagnitude = Math.sqrt( fwdSpeed * fwdSpeed + strSpeed * strSpeed);
     double leftStickAngle = Math.atan2(fwdSpeed, strSpeed);
     /* 
     // Random intermediate math
-=======
-    
-    
-    // Orig Random intermediate math
->>>>>>> 37727e952d035694146cf8f70f6e60a4ab044625
     double a = strSpeed - rotSpeed * (m_wheelBase / 2);
     double b = strSpeed + rotSpeed * (m_wheelBase / 2);
     double c = fwdSpeed - rotSpeed * (m_trackWidth / 2);
     double d = fwdSpeed + rotSpeed * (m_trackWidth / 2);
-<<<<<<< HEAD
     */
 
     float Deg2Rad = 0.0174532924F;
@@ -82,9 +75,6 @@ public class DefaultDriveCommand extends CommandBase {
     double d = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -135));
     //The x component of the FR and BR
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - m_driveSubsystem.getHeading()) - rotSpeed * Math.cos(Deg2Rad * -45));
-=======
-
->>>>>>> 37727e952d035694146cf8f70f6e60a4ab044625
 
     // Calculate the wheel speeds
     double frontRightSpeed = Math.sqrt(b * b + c * c);
@@ -142,11 +132,7 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("Back Left Wheel Angle", backLeftAngle);
     }
 
-<<<<<<< HEAD
     if(fwdSpeed > 0.1 || fwdSpeed < -0.1 || strSpeed > 0.1 || strSpeed < -0.1){
-=======
-    if(Math.abs(fwdSpeed) + Math.abs(strSpeed) + Math.abs(rotSpeed) > 0.1){
->>>>>>> 37727e952d035694146cf8f70f6e60a4ab044625
       // Move the robot
       m_driveSubsystem.setSteerMotors(frontLeftAngle, frontRightAngle, backLeftAngle, backRightAngle);
     }

@@ -57,7 +57,7 @@ public class DefaultDriveCommand extends CommandBase {
     double rotSpeed = MathUtil.applyDeadband(m_rotationAxis.get(), ControllerConstants.kDeadzone);
 
     double leftStickMagnitude = Math.sqrt( fwdSpeed * fwdSpeed + strSpeed * strSpeed);
-    double leftStickAngle = Math.atan2(fwdSpeed, strSpeed);
+    double leftStickAngle = Math.atan2(strSpeed, fwdSpeed);
     /* 
     // Random intermediate math
     double a = strSpeed - rotSpeed * (m_wheelBase / 2);

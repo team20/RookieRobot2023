@@ -66,8 +66,8 @@ public class DefaultDriveCommand extends CommandBase {
     double d = fwdSpeed + rotSpeed * (m_trackWidth / 2);
     */
 
-    float Deg2Rad = 0.0174532924F;
-    double gyroAngle = 0;//-Deg2Rad * m_driveSubsystem.getHeading();
+    double Deg2Rad = 0.0174532924F;
+    double gyroAngle = 0;//Deg2Rad * m_driveSubsystem.getHeading();
 
     // The y component of the FL and BL wheels
     double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * 135));
@@ -144,7 +144,7 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("Front Left Wheel Angle", frontLeftAngle);
       SmartDashboard.putNumber("Back Right Wheel Angle", backRightAngle);
       SmartDashboard.putNumber("Back Left Wheel Angle", backLeftAngle);
-      SmartDashboard.putNumber("NAVX", m_driveSubsystem.getHeading());
+
     }
 
     if(leftStickMagnitude + Math.abs(rotSpeed) > 0.1){

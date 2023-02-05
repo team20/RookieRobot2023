@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +21,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveModule m_backRightSwerveModule;
   private static DriveSubsystem s_subsystem;
   private AHRS m_gyro = new AHRS(SPI.Port.kMXP); 
+  private MedianFilter filter = new MedianFilter(5);
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -64,6 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveConstants.BackRightZero, 
         DriveConstants.kBackRightDriveInverted);
     }
+    m_gyro.calibrate();
     new Thread(() -> {
         try{
           Thread.sleep(1000);
@@ -72,9 +75,17 @@ public class DriveSubsystem extends SubsystemBase {
     });
     resetEncoders();
   }
-
+  double oldVal;
   public double getHeading(){
-    return m_gyro.getAngle();
+    return filter.calculate(m_gyro.getPitch());
+  }
+
+  public AHRS getNavx(){
+    return m_gyro;
+  }
+
+  public void resetHeading(){
+    m_gyro.reset();
   }
 
   public static DriveSubsystem get() {
@@ -168,6 +179,11 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FR DriveEncoder", m_frEncoderPos); 
     SmartDashboard.putNumber("BL DriveEncoder", m_blEncoderPos); 
     SmartDashboard.putNumber("BR DriveEncoder", m_brEncoderPos); 
+
+
+    SmartDashboard.putNumber("NAVX Pitch", getNavx().getPitch());
+    SmartDashboard.putNumber("NAVX Yaw", getNavx().getYaw());
+    SmartDashboard.putNumber("NAVX Roll", getNavx().getRoll());
     
   }
 

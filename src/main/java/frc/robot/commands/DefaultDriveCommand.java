@@ -140,10 +140,10 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("NAVX", m_driveSubsystem.getHeading());
     }
 
-    //if(fwdSpeed > 0.1 || fwdSpeed < -0.1 || strSpeed > 0.1 || strSpeed < -0.1){
+    if(leftStickMagnitude + Math.abs(rotSpeed) > 0.1){
       // Move the robot
       m_driveSubsystem.setSteerMotors(frontLeftAngle, frontRightAngle, backLeftAngle, backRightAngle);
-    //}
+    }
     m_driveSubsystem.setDriveMotors(frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed);
   }
 }

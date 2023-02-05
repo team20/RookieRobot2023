@@ -61,7 +61,7 @@ public class DefaultDriveCommand extends CommandBase {
     /* 
     // Random intermediate math
     double a = strSpeed - rotSpeed * (m_wheelBase / 2);
-    double b = strSpeed + rotSpeed * (m_wheelBase / 2);
+    double b = strSpeed + rotSpeed * (m_wheelBase / 2);brav
     double c = fwdSpeed - rotSpeed * (m_trackWidth / 2);
     double d = fwdSpeed + rotSpeed * (m_trackWidth / 2);
     */
@@ -69,13 +69,13 @@ public class DefaultDriveCommand extends CommandBase {
     float Deg2Rad = 0.0174532924F;
     double gyroAngle = Deg2Rad * m_driveSubsystem.getHeading();
 
-    // The y component of the FL and FR wheels
+    // The y component of the FL and BL wheels
     double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * -135));
-    // The y component of the BL and BR wheels
+    // The y component of the FR and BR wheels
     double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * -225));
-    //The x component of the FL and BL
+    //The x component of the FL and FR
     double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -135));
-    //The x component of the FR and BR
+    //The x component of the BL and BR
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * -45));
 
     // Calculate the wheel speeds
@@ -104,15 +104,20 @@ public class DefaultDriveCommand extends CommandBase {
       backLeftSpeed /= highestSpeed;
     }
     // Calculate the wheel angles in degrees
-    double flOffset = (132.92 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    double frOffset = (127.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    double blOffset = (147.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    double brOffset = (91.14 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    // double flOffset = (132.92 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    // double frOffset = (127.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    // double blOffset = (147.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    // double brOffset = (91.14 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
 
-    double frontLeftAngle = Math.toDegrees(Math.atan2(b, d) + flOffset);
-    double frontRightAngle = Math.toDegrees(Math.atan2(b, c) + frOffset);
-    double backRightAngle = Math.toDegrees(Math.atan2(a, c)) + brOffset;
-    double backLeftAngle = Math.toDegrees(Math.atan2(a, d) + blOffset);
+    // double frontLeftAngle = Math.toDegrees(Math.atan2(b, d) + flOffset);
+    // double frontRightAngle = Math.toDegrees(Math.atan2(b, c) + frOffset);
+    // double backRightAngle = Math.toDegrees(Math.atan2(a, c)) + brOffset;
+    // double backLeftAngle = Math.toDegrees(Math.atan2(a, d) + blOffset);
+
+    double frontLeftAngle = Math.toDegrees(Math.atan2(b, d));
+    double frontRightAngle = Math.toDegrees(Math.atan2(b, c));
+    double backRightAngle = Math.toDegrees(Math.atan2(a, c));
+    double backLeftAngle = Math.toDegrees(Math.atan2(a, d));
 
     
     // SmartDashboard logging
@@ -124,10 +129,10 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("b", b);
       SmartDashboard.putNumber("c", c);
       SmartDashboard.putNumber("d", d);
-      SmartDashboard.putNumber("Front Right Wheel Speed", frontRightSpeed);
-      SmartDashboard.putNumber("Front Left Wheel Speed", frontLeftSpeed);
-      SmartDashboard.putNumber("Back Right Wheel Speed", backRightSpeed);
-      SmartDashboard.putNumber("Back Left Wheel Speed", backLeftSpeed);
+      // SmartDashboard.putNumber("Front Right Wheel Speed", frontRightSpeed);
+      // SmartDashboard.putNumber("Front Left Wheel Speed", frontLeftSpeed);
+      // SmartDashboard.putNumber("Back Right Wheel Speed", backRightSpeed);
+      // SmartDashboard.putNumber("Back Left Wheel Speed", backLeftSpeed);
       SmartDashboard.putNumber("Front Right Wheel Angle", frontRightAngle);
       SmartDashboard.putNumber("Front Left Wheel Angle", frontLeftAngle);
       SmartDashboard.putNumber("Back Right Wheel Angle", backRightAngle);

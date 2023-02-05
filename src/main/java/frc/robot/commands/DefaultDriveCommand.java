@@ -70,11 +70,11 @@ public class DefaultDriveCommand extends CommandBase {
     double gyroAngle = 0;//-Deg2Rad * m_driveSubsystem.getHeading();
 
     // The y component of the FL and BL wheels
-    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * 135));
+    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) + rotSpeed * Math.sin(Deg2Rad * 135));
     // The y component of the FR and BR wheels
     double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * 225));
     //The x component of the FL and FR
-    double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * 135));
+    double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) + rotSpeed * Math.cos(Deg2Rad * 135));
     //The x component of the BL and BR
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * 45));
 

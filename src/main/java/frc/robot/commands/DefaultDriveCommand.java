@@ -78,6 +78,13 @@ public class DefaultDriveCommand extends CommandBase {
     //The x component of the BL and BR
     double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * 45));
 
+    double FRONTLEFTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) + rotSpeed * Math.cos(Deg2Rad * 135));
+    double FRONTLEFTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) + rotSpeed * Math.sin(Deg2Rad * 135));
+
+
+    double BACKRIGHTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) + rotSpeed * Math.cos(Deg2Rad * 45));
+    double BACKRIGHTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) + rotSpeed * Math.sin(Deg2Rad * 225));
+
     // Calculate the wheel speeds
     double frontLeftSpeed = Math.sqrt(b * b + d * d);
     double frontRightSpeed = Math.sqrt(b * b + c * c);
@@ -114,10 +121,10 @@ public class DefaultDriveCommand extends CommandBase {
     // double backRightAngle = Math.toDegrees(Math.atan2(a, c)) + brOffset;
     // double backLeftAngle = Math.toDegrees(Math.atan2(a, d) + blOffset);
 
-    double frontLeftAngle = Math.toDegrees(Math.atan2(b, d));
+    double frontLeftAngle = Math.toDegrees(Math.atan2(FRONTLEFTY, FRONTLEFTX));
     double frontRightAngle = Math.toDegrees(Math.atan2(a, d));
     double backLeftAngle = Math.toDegrees(Math.atan2(b, c));
-    double backRightAngle = Math.toDegrees(Math.atan2(a, c));
+    double backRightAngle = Math.toDegrees(Math.atan2(BACKRIGHTY, BACKRIGHTX));
 
     
     // SmartDashboard logging

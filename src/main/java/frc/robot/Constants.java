@@ -66,8 +66,8 @@ public final class Constants {
 		public static final int kBackRightSteerPort = 9;
 		public static final int kBackLeftDrivePort = 7;
 		public static final int kBackLeftSteerPort = 6;
-		public static final int kFrontRightCANCoderPort = 14;
-		public static final int kFrontLeftCANCoderPort = 13;
+		public static final int kFrontRightCANCoderPort = 13;
+		public static final int kFrontLeftCANCoderPort = 14;
 		public static final int kBackRightCANCoderPort = 15;
 		public static final int kBackLeftCANCoderPort = 16;
 		public static final double kDriveScale = 0.5;

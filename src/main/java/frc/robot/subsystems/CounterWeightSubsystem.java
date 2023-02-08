@@ -81,6 +81,22 @@ public class CounterWeightSubsystem extends SubsystemBase {
       }
     }
   }
+  // Counter Weight Movement Algorithm
+  
+  public REVLibError counterWeightAlgorithm(RelativeEncoder m_armMotorEncoder){
+    //Establishes ratio between motor encoders (ie. 5 rotations in arm = 1 rotation in counterweight)
+    double armToCounterWeightEncoderRatio = 0.2;
+    //Always checking for if statement condition which tells the counterweight encoder what position to move to
+    while (true){
+      double armMotorEncoderPosition = m_armMotorEncoder.getPosition();
+      double counterWeightMotorEncoderInitialPosition = m_counterWeightMotorEncoder.getPosition();
+        if ((armMotorEncoderPosition-counterWeightMotorEncoderInitialPosition)>5){
+            continue;
+          }
+        REVLibError counterWeightMotorEncoderFinalPosition = m_counterWeightMotorEncoder.setPosition(armMotorEncoderPosition*armToCounterWeightEncoderRatio);
+        return counterWeightMotorEncoderFinalPosition;
+      } 
+    }
 
   @Override
   public void periodic() {

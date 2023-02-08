@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -81,9 +82,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
       }
     }
   }
-  // Counter Weight Movement Algorithm
-  
-  public REVLibError counterWeightAlgorithm(RelativeEncoder m_armMotorEncoder){
+  // Counter Weight Movement Algorithm for arm balancing
+  public REVLibError counterWeightForArm(RelativeEncoder m_armMotorEncoder){
     //Establishes ratio between motor encoders (ie. 5 rotations in arm = 1 rotation in counterweight)
     double armToCounterWeightEncoderRatio = 0.2;
     //Always checking for if statement condition which tells the counterweight encoder what position to move to
@@ -98,8 +98,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
       } 
     }
 
-  @Override
-  public void periodic() {
+ @Override
+ public void periodic() {
     m_counterWeightMotor.set(.5);
   }
 }

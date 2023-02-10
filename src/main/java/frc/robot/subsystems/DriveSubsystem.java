@@ -180,7 +180,11 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("BL DriveEncoder", m_blEncoderPos); 
     SmartDashboard.putNumber("BR DriveEncoder", m_brEncoderPos); 
 
-
+    //Tested NAVX board in proper orentation
+    //X axis of excelerometer should be front/back direction of robot 
+    //Y axis port starboard 
+    //Z axis is up 
+    // Pitch, yaw, and roll on the NAVX are now correct for this orentation 
     SmartDashboard.putNumber("NAVX Pitch", getNavx().getPitch());
     SmartDashboard.putNumber("NAVX Yaw", getNavx().getYaw());
     SmartDashboard.putNumber("NAVX Roll", getNavx().getRoll());

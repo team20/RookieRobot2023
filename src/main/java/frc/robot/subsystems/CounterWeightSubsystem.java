@@ -84,19 +84,34 @@ public class CounterWeightSubsystem extends SubsystemBase {
   }
   // Counter Weight Movement Algorithm for arm balancing
   public REVLibError counterWeightForArm(RelativeEncoder m_armMotorEncoder){
+
+    // BELOW VALUES TO BE PUT INTO Constants.Java
+    double kArmMotorEncoderPositionZero = 0;
+    double kCounterWeightEncoderPositionZero = 0;
+    REVLibError armMotorStartingPosition = m_armMotorEncoder.setPosition(kArmMotorEncoderPositionZero);
+    REVLibError counterWeightMotorStartingPosition = m_counterWeightMotorEncoder.setPosition(kCounterWeightEncoderPositionZero);
+    // ABOVE VALUES TO BE PUT INTO Constants.Java
+
     //Establishes ratio between motor encoders (ie. 5 rotations in arm = 1 rotation in counterweight)
     double armToCounterWeightEncoderRatio = 0.2;
-    //Always checking for if statement condition which tells the counterweight encoder what position to move to
+    //Checking for if statement condition which tells the counterweight encoder what position to move to
     while (true){
-      double armMotorEncoderPosition = m_armMotorEncoder.getPosition();
+      double armMotorEncoderInputPosition1 = m_armMotorEncoder.getPosition();
+      if (armMotorEncoderInputPosition1 != kArmMotorEncoderPositionZero){
+        continue;
+      }
+      double armMotorEncoderInputPosition2 = m_armMotorEncoder.getPosition();
+      double armMotorInputPositionChange = armMotorEncoderInputPosition1-armMotorEncoderInputPosition2;
       double counterWeightMotorEncoderInitialPosition = m_counterWeightMotorEncoder.getPosition();
-        if ((armMotorEncoderPosition-counterWeightMotorEncoderInitialPosition)>5){
+      //Checks if the difference between both arm encoder values exceeds 5
+        if (armMotorInputPositionChange >5 || armMotorInputPositionChange < -5){
             continue;
           }
-        REVLibError counterWeightMotorEncoderFinalPosition = m_counterWeightMotorEncoder.setPosition(armMotorEncoderPosition*armToCounterWeightEncoderRatio);
+        REVLibError counterWeightMotorEncoderFinalPosition = m_counterWeightMotorEncoder.setPosition(counterWeightMotorEncoderInitialPosition + (armMotorInputPositionChange*armToCounterWeightEncoderRatio));
         return counterWeightMotorEncoderFinalPosition;
-      } 
+      }
     }
+  // Counter Weight Movement Algorithm for robot balancing & charging dock balancing
 
  @Override
  public void periodic() {

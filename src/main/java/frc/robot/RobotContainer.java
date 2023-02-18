@@ -6,8 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CalibrationAutoCommand;
@@ -18,6 +20,7 @@ import frc.robot.commands.ResetToZeroDegreesCommand;
 import frc.robot.commands.SolenoidCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import edu.wpi.first.wpilibj.Solenoid;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -30,6 +33,7 @@ public class RobotContainer {
   private final Joystick m_joystick = new Joystick(ControllerConstants.kDriverControllerPort);
   private final GenericHID m_controller = new GenericHID(ControllerConstants.kDriverControllerPort);
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final PneumaticSubsystem m_pivot = new PneumaticSubsystem(PneumaticSubsystem.Device.PIVOT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -54,15 +58,18 @@ public class RobotContainer {
             () -> m_joystick.getRawAxis(Axis.kRightX)));
     new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
         .onTrue(new ResetToZeroDegreesCommand());
+
+    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kCircle))
+        .onTrue(new InstantCommand(()-> m_pivot.setToggle()));
+
   }
 
   public Command getAutonomousCommand() {
     // return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),
                                       // new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
-    return new SolenoidCommand();
+    return new SolenoidCommand(1,2);
   }
 }
-
 
 
 

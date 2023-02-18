@@ -5,64 +5,61 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+ // we also dont know what to do with this subsystem because we dont really need it but we dont want to get rid of it so deal with it (for now)
 
-import edu.wpi.first.wpilibj.Compressor;
+ package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.PneumaticConstants;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class PneumaticSubsystem extends SubsystemBase {
-
-    Compressor compressor;
-    DoubleSolenoid intake;
     
-    public static Solenoid phosLipSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
+    public static enum Device {
+        PIVOT, BRAKE, CLAW
+    }
 
-    //phos.set​(true);
+    Device m_device;
+    DoubleSolenoid m_solonoid;
+    Value m_state;
 
+    public PneumaticSubsystem(Device dev) {
+        m_device = dev;
+        switch(m_device){
+            case PIVOT:
+                m_solonoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kPivotFwdPort , PneumaticConstants.kPivotRevPort);
+                break;
+            case BRAKE:
+                m_solonoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kBrakeFwdPort, PneumaticConstants.kBrakeRevPort);
+                break;
+            case CLAW:
+                m_solonoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kClawFwdPort, PneumaticConstants.kClawRevPort);
+                break;
+        }
 
-    // public PneumaticSubsystem(int solPort1, int solPort2) {
-    //     Compressor m_compressor = new Compressor(1, PneumaticsModuleType.REVPH);
-    //     DoubleSolenoid m_solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, solPort1, solPort2); // TODO: check ports, currently guessing
-    // }
-    // // TODO: check this idk
-    // private PneumaticSubsystem clawPneumatic = new PneumaticSubsystem(2, 3);
-    // private PneumaticSubsystem pivotPneumatic = new PneumaticSubsystem(2, 3);
-    // private PneumaticSubsystem pressurePneumatic = new PneumaticSubsystem(2, 3);
-    // private PneumaticSubsystem smthPneumatic = new PneumaticSubsystem(2, 3);
+        m_state = m_solonoid.get();
+    }
+    
+    public void stop() {
+        //compressor.disable();
+    }
 
-    // public final class IntakeMethods {
-	// 	// for intake pneumatics but we don't have intake pneumatics so something's wrong here but we don't really care
-    //     public void stop() {
-    //         compressor.disable();
-    //     }
-    
-    //     public void lowerIntake() {
-    //         intake.set(DoubleSolenoid.Value.kReverse);
-    //     }
-    
-    //     public void raiseIntake() {
-    //         intake.set(DoubleSolenoid.Value.kForward);
-    //     }
-    
-    //     public void toggleIntake() {
-    //         intake.toggle();
-    //     }
-	// }
-    
-    // public final class ClawMethods {
-	// 	// we actually have something for this so yay
-    //     // public void openClaw() {
-    //     //     clawPneumatic.set(DoubleSolenoid.Value.kForward);
+    public void setForward() {
+        m_solonoid.set(DoubleSolenoid.Value.kForward);
+    }
 
-    //     // }
-    
-    //     // public void closeClaw() {
-    //     //     clawPneumatic.set(DoubleSolenoid.Value.kReverse);
-    //     // }   
-	// }
+    public void setReverse() {
+        m_solonoid.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    public void setToggle() {
+        m_solonoid.toggle();
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }
-
-

@@ -5,15 +5,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.PneumaticSubsystem;
 
 public class SolenoidCommand extends CommandBase {
-    private Solenoid m_solenoid;
+    private DoubleSolenoid m_solenoid;
+    // private Compressor m_compressor;
 
-    public SolenoidCommand() { 
-        Solenoid solenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
-        m_solenoid = solenoid;
+    public SolenoidCommand(int solPort1, int solPort2) {
+            //  = new Compressor(1, PneumaticsModuleType.REVPH);
+            m_solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, solPort1, solPort2);
     }
 
     @Override
@@ -22,14 +21,17 @@ public class SolenoidCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_solenoid.set(true);
+        //m_solenoid.setPulseDuration(.50);
+        //m_solenoid.startPulse();
+        m_solenoid.set(DoubleSolenoid.Value.kForward);
     }
 
-    // @Override
-    // public boolean isFinished() {
-    // }
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 
-    // @Override
-    // public void cancel() {
-    // }
+    @Override
+    public void cancel() {
+    }
 }

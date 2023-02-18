@@ -54,20 +54,31 @@ public final class Constants {
 			public static final int kLeft = 270;
 		}
 	}
-
+	public static final class PneumaticConstants {
+		// CAN ID
+		public static final int kPneumaticHubID = 12;
+		// Pneumatic Ports 
+		public static final int kPivotFwdPort = 0;
+		public static final int kPivotRevPort = 1;
+		public static final int kBrakeFwdPort = 2;
+		public static final int kBrakeRevPort = 3; 
+		public static final int kClawFwdPort = 4;
+		public static final int kClawRevPort = 5;
+	}
 	public static final class DriveConstants {
 		// CAN IDs (updated)
-		public static final int kCounterWeightPort = 17;
-		public static final int kFrontRightDrivePort = 4;
-		public static final int kFrontRightSteerPort = 5;
 		public static final int kFrontLeftDrivePort = 2;
 		public static final int kFrontLeftSteerPort = 3;
+		public static final int kFrontRightDrivePort = 4;
+		public static final int kFrontRightSteerPort = 5;
+		public static final int kBackLeftSteerPort = 6;
+		public static final int kBackLeftDrivePort = 7;
 		public static final int kBackRightDrivePort = 8;
 		public static final int kBackRightSteerPort = 9;
-		public static final int kBackLeftDrivePort = 7;
-		public static final int kBackLeftSteerPort = 6;
-		public static final int kFrontRightCANCoderPort = 14;
+		public static final int kArmMotorPort = 10;
+		public static final int kCounterWeightPort = 11;
 		public static final int kFrontLeftCANCoderPort = 13;
+		public static final int kFrontRightCANCoderPort = 14;
 		public static final int kBackRightCANCoderPort = 15;
 		public static final int kBackLeftCANCoderPort = 16;
 		// Drive PID values

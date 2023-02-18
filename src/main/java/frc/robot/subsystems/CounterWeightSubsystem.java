@@ -83,7 +83,7 @@ public class CounterWeightSubsystem extends SubsystemBase {
     }
   }
   // Counter Weight Movement Algorithm for arm balancing
-  public REVLibError counterWeightForArm(RelativeEncoder m_armMotorEncoder){
+  public REVLibError counterWeightForArm(RelativeEncoder m_armMotorEncoder) throws InterruptedException{
 
     // BELOW VALUES TO BE PUT INTO Constants.Java
     double kArmMotorEncoderPositionZero = 0;
@@ -100,6 +100,7 @@ public class CounterWeightSubsystem extends SubsystemBase {
       if (armMotorEncoderInputPosition1 != kArmMotorEncoderPositionZero){
         continue;
       }
+      wait(100);
       double armMotorEncoderInputPosition2 = m_armMotorEncoder.getPosition();
       double armMotorInputPositionChange = armMotorEncoderInputPosition1-armMotorEncoderInputPosition2;
       double counterWeightMotorEncoderInitialPosition = m_counterWeightMotorEncoder.getPosition();

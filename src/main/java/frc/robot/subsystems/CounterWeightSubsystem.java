@@ -16,7 +16,7 @@ import frc.robot.Constants.WeightConstants;
 import java.lang.Math;
 
 public class CounterWeightSubsystem extends SubsystemBase {
-  private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCADID, MotorType.kBrushless);
+  private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
   public RelativeEncoder m_counterWeightMotorEncoder = m_counterWeightMotor.getEncoder();
   private static CounterWeightSubsystem s_subsystem;
   DigitalInput m_topSwitch = new DigitalInput(WeightConstants.kTopLimitDIO);

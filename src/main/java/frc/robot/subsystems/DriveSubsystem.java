@@ -176,6 +176,5 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FR PID Setpoint", m_frontRightPIDController.getSetpoint());
     SmartDashboard.putNumber("BL PID Setpoint", m_backLeftPIDController.getSetpoint());
     SmartDashboard.putNumber("BR PID Setpoint", m_backRightPIDController.getSetpoint());
-    System.out.println("hi")
   }
 }

@@ -24,7 +24,7 @@ public class PneumaticSubsystem extends SubsystemBase {
     }
 
     Device m_device;
-    DoubleSolenoid m_solenoid;
+    public static DoubleSolenoid m_solenoid;
     Value m_state;
     PS4Controller m_controller = new PS4Controller(0);
 

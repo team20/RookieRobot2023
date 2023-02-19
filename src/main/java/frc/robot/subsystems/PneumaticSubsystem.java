@@ -41,6 +41,15 @@ public class PneumaticSubsystem extends SubsystemBase {
 
         m_state = m_solonoid.get();
     }
+
+    public void armBrake() {
+        if (ControllerConstants.Button.kCircle){
+            m_solonoid.disable();
+        } else {
+            m_solonoid.enable();
+        }
+
+    }
     
     public void stop() {
         //compressor.disable();

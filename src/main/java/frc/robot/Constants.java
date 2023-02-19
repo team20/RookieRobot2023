@@ -27,8 +27,8 @@ public final class Constants {
 			public static final int kLeftX = 0;
 			public static final int kLeftY = 1;
 			public static final int kRightX = 2;
-			public static final int kLeftTrigger = 3;
-			public static final int kRightTrigger = 4;
+			public static final int kLeftTrigger = 3; // L2
+			public static final int kRightTrigger = 4; // R2
 			public static final int kRightY = 5;
 		}
 
@@ -37,8 +37,8 @@ public final class Constants {
 			public static final int kX = 2;
 			public static final int kCircle = 3;
 			public static final int kTriangle = 4;
-			public static final int kLeftBumper = 5;
-			public static final int kRightBumper = 6;
+			public static final int kLeftBumper = 5; // L1
+			public static final int kRightBumper = 6; // R1
 			public static final int kShare = 9;
 			public static final int kOptions = 10;
 			public static final int kLeftStick = 11;

@@ -16,7 +16,7 @@ public class PneumaticCommand extends CommandBase {
        super();
        // Use requires() here to declare subsystem dependencies
        // eg. requires(chassis);
-       requires(PneumaticSubsystem.m_solonoid);
+       requires(PneumaticSubsystem.m_solenoid);
        System.out.println("hi")
 
     }

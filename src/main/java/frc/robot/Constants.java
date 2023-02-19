@@ -55,9 +55,14 @@ public final class Constants {
 		}
 	}
 
+	public static final class WeightConstants {
+		public static final int kCANID = 11;  // sparkMax CAD ID
+		public static final int kTopLimitDIO = 0;
+		public static final int kBotLimitDIO = 1;
+	}
+
 	public static final class DriveConstants {
 		// CAN IDs (updated)
-		public static final int kCounterWeightPort = 4;
 		public static final int kFrontRightDrivePort = 4;
 		public static final int kFrontRightSteerPort = 5;
 		public static final int kFrontLeftDrivePort = 2;

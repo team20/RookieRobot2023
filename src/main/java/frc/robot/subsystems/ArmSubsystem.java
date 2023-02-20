@@ -12,36 +12,37 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.WeightConstants;
 import java.lang.Math;
 
-public class CounterWeightSubsystem extends SubsystemBase {
-  private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
-  public RelativeEncoder m_counterWeightMotorEncoder = m_counterWeightMotor.getEncoder();
-  private static CounterWeightSubsystem s_subsystem;
-  DigitalInput m_topSwitch = new DigitalInput(WeightConstants.kTopLimitDIO);
-  DigitalInput m_botSwitch = new DigitalInput(WeightConstants.kBotLimitDIO);
-  
-  /** Creates a new CounterWeightSubsystem. */
-  public CounterWeightSubsystem() {
+public class ArmSubsystem extends SubsystemBase {
+  private CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.kCANDICE, MotorType.kBrushless);
+  public RelativeEncoder m_armMotorEncoder = m_armMotor.getEncoder();
+  private static ArmSubsystem a_subsystem;
+  DigitalInput m_aTopSwitch = new DigitalInput(ArmConstants.kArmTopLimitDIO);
+  DigitalInput m_aBotSwitch = new DigitalInput(ArmConstants.kArmBotLimitDIO);
+
+  /** Creates a new ArmSubsystem. */
+  public ArmSubsystem() {
     // Singleton
-    if (s_subsystem != null) {
+    if (a_subsystem != null) {
       try {
-        throw new Exception("Counterweight subsystem already initalized!");
+        throw new Exception("Arm subsystem already initalized!");
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-    s_subsystem = this;
+    a_subsystem = this;
 
      // Initialize motors, PID controllers
      {
-      configMotorController(m_counterWeightMotor);
+      configMotorController(m_armMotor);
     }
   }
 
-  public static CounterWeightSubsystem get() {
-    return s_subsystem;
+  public static ArmSubsystem get() {
+    return a_subsystem;
   }
 
   /***
@@ -60,16 +61,17 @@ public class CounterWeightSubsystem extends SubsystemBase {
   /**
    * Makes our drive motors spin at the specified speeds
    * 
-   * @param counterWeightSpeed
+   * @param armSpeed
    *   Speed of the front left wheel in duty cycles [-1, 1]
    */
   public void setDriveMotors(double speed) {
     // Ensure speed is within valid range
     speed = Math.min(1, Math.max(speed, -1));
-    boolean isHit = (speed > 0) ? m_topSwitch.get() : m_botSwitch.get();
+    m_armMotor.set(speed);
+    boolean isHit = (speed > 0) ? m_aTopSwitch.get() : m_aBotSwitch.get();
     m_counterWeightMotor.set(isHit ? 0 : speed);
   }
-  
+
   // Counter Weight Movement Algorithm for arm balancing
   public REVLibError counterWeightForArm(RelativeEncoder m_armMotorEncoder){
 

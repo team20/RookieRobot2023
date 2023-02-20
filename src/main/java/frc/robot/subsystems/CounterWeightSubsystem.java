@@ -13,6 +13,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.WeightConstants;
+import frc.robot.Constants.ArmConstants;
 import java.lang.Math;
 
 public class CounterWeightSubsystem extends SubsystemBase {

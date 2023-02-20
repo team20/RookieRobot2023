@@ -14,12 +14,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.WeightConstants;
+import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import java.lang.Math;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.kCANDICE, MotorType.kBrushless);
   public RelativeEncoder m_armMotorEncoder = m_armMotor.getEncoder();
   private static ArmSubsystem a_subsystem;
+  private static PneumaticsSubsystem p_subsystem;
   DigitalInput m_aTopSwitch = new DigitalInput(ArmConstants.kArmTopLimitDIO);
   DigitalInput m_aBotSwitch = new DigitalInput(ArmConstants.kArmBotLimitDIO);
 
@@ -36,7 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
     a_subsystem = this;
 
      // Initialize motors, PID controllers
-     {
+    {
       configMotorController(m_armMotor);
     }
   }
@@ -58,6 +61,11 @@ public class ArmSubsystem extends SubsystemBase {
     motorController.setSmartCurrentLimit(10);
   }
 
+  // reset arm
+  public void resetArm() {
+    m_armMotorEncoder.setPosition(0);
+  }
+
   /**
    * Makes our drive motors spin at the specified speeds
    * 
@@ -69,43 +77,17 @@ public class ArmSubsystem extends SubsystemBase {
     speed = Math.min(1, Math.max(speed, -1));
     m_armMotor.set(speed);
     boolean isHit = (speed > 0) ? m_aTopSwitch.get() : m_aBotSwitch.get();
-    m_counterWeightMotor.set(isHit ? 0 : speed);
-  }
-
-  // Counter Weight Movement Algorithm for arm balancing
-  public REVLibError counterWeightForArm(RelativeEncoder m_armMotorEncoder){
-
-    // BELOW VALUES TO BE PUT INTO Constants.Java
-    double kArmMotorEncoderPositionZero = 0;
-    double kCounterWeightEncoderPositionZero = 0;
-    REVLibError armMotorStartingPosition = m_armMotorEncoder.setPosition(kArmMotorEncoderPositionZero);
-    REVLibError counterWeightMotorStartingPosition = m_counterWeightMotorEncoder.setPosition(kCounterWeightEncoderPositionZero);
-    // ABOVE VALUES TO BE PUT INTO Constants.Java
-
-    //Establishes ratio between motor encoders (ie. 5 rotations in arm = 1 rotation in counterweight)
-    double armToCounterWeightEncoderRatio = 0.2;
-
-    //Checking for if statement condition which tells the counterweight encoder what position to move to
-    while (true){
-      double armMotorEncoderInputPosition1 = m_armMotorEncoder.getPosition();
-      if (armMotorEncoderInputPosition1 != kArmMotorEncoderPositionZero){
-        continue;
-      }
-      double armMotorEncoderInputPosition2 = m_armMotorEncoder.getPosition();
-      double armMotorInputPositionChange = armMotorEncoderInputPosition1-armMotorEncoderInputPosition2;
-      double counterWeightMotorEncoderInitialPosition = m_counterWeightMotorEncoder.getPosition();
-      //Checks if the difference between both arm encoder values exceeds 5
-        if (armMotorInputPositionChange >5 || armMotorInputPositionChange < -5){
-            continue;
-          }
-        REVLibError counterWeightMotorEncoderFinalPosition = m_counterWeightMotorEncoder.setPosition(counterWeightMotorEncoderInitialPosition + (armMotorInputPositionChange*armToCounterWeightEncoderRatio));
-        return counterWeightMotorEncoderFinalPosition;
-      }
+    if (isHit) {
+      ((BrakePneumatics) p_subsystem).armBrake();
+    } else {
+      ((BrakePneumatics) p_subsystem).armInMovement();
     }
-  // Counter Weight Movement Algorithm for robot balancing & charging dock balancing
+  }
 
  @Override
- public void periodic() {
-    m_counterWeightMotor.set(.5);
+  public void periodic() {
+    m_armMotor.set(.5);
+    // m_armMotor.set(m_backRightPIDController.calculate(m_backRightCANCoder.getAbsolutePosition()));
+    // add pid controller for arm?? is it needed?
   }
-}
+};

@@ -7,13 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.Constants.ControllerConstants.DPad;
+import frc.robot.Constants.ControllerConstants.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -62,13 +64,16 @@ public class RobotContainer {
             () -> m_joystick.getRawAxis(Axis.kLeftX),
             () -> m_joystick.getRawAxis(Axis.kLeftY),
             () -> m_joystick.getRawAxis(Axis.kRightX)));
-    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
+    new JoystickButton(m_controller, ControllerConstants.Button.kTriangle)
         .onTrue(new ResetToZeroDegreesCommand());
 
     
     new POVButton(m_controller, DPad.kUp).or(new POVButton(m_controller, DPad.kUpLeft))
                   .or(new POVButton(m_controller, DPad.kUpRight))
-                  .whileTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.RAISE));
+                  .onTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.RAISE));
+
+    new JoystickButton(m_controller, Button.kLeftBumper)
+                      .onTrue(new ClawPneumaticCommand(m_claw, ClawPneumaticCommand.Operation.OPEN));
 
 
 

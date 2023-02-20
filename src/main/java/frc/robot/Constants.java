@@ -27,8 +27,8 @@ public final class Constants {
 			public static final int kLeftX = 0;
 			public static final int kLeftY = 1;
 			public static final int kRightX = 2;
-			public static final int kLeftTrigger = 3; // L2
-			public static final int kRightTrigger = 4; // R2
+			public static final int kLeftTrigger = 3;
+			public static final int kRightTrigger = 4;
 			public static final int kRightY = 5;
 		}
 
@@ -37,8 +37,8 @@ public final class Constants {
 			public static final int kX = 2;
 			public static final int kCircle = 3;
 			public static final int kTriangle = 4;
-			public static final int kLeftBumper = 5; // L1
-			public static final int kRightBumper = 6; // R1
+			public static final int kLeftBumper = 5;
+			public static final int kRightBumper = 6;
 			public static final int kShare = 9;
 			public static final int kOptions = 10;
 			public static final int kLeftStick = 11;
@@ -54,6 +54,7 @@ public final class Constants {
 			public static final int kLeft = 270;
 		}
 	}
+
 	public static final class PneumaticConstants {
 		// CAN ID
 		public static final int kPneumaticHubID = 12;
@@ -65,20 +66,35 @@ public final class Constants {
 		public static final int kClawFwdPort = 4;
 		public static final int kClawRevPort = 5;
 	}
+
+	public static final class WeightConstants {
+		public static final int kCANID = 11;  // sparkMax CAD ID
+		public static final int kTopLimitDIO = 0;
+		public static final int kBotLimitDIO = 1;
+	}
+
+	public static final class ArmConstants {
+		
+		
+		
+		
+		public static final int kCANDICE = 10;
+		public static final int kArmTopLimitDIO = 2;
+		public static final int kArmBotLimitDIO = 3;
+	}
+
 	public static final class DriveConstants {
 		// CAN IDs (updated)
-		public static final int kFrontLeftDrivePort = 2;
-		public static final int kFrontLeftSteerPort = 3;
 		public static final int kFrontRightDrivePort = 4;
 		public static final int kFrontRightSteerPort = 5;
-		public static final int kBackLeftSteerPort = 6;
-		public static final int kBackLeftDrivePort = 7;
+		public static final int kFrontLeftDrivePort = 2;
+		public static final int kFrontLeftSteerPort = 3;
 		public static final int kBackRightDrivePort = 8;
 		public static final int kBackRightSteerPort = 9;
-		public static final int kArmMotorPort = 10;
-		public static final int kCounterWeightPort = 11;
-		public static final int kFrontLeftCANCoderPort = 13;
+		public static final int kBackLeftDrivePort = 7;
+		public static final int kBackLeftSteerPort = 6;
 		public static final int kFrontRightCANCoderPort = 14;
+		public static final int kFrontLeftCANCoderPort = 13;
 		public static final int kBackRightCANCoderPort = 15;
 		public static final int kBackLeftCANCoderPort = 16;
 		// Drive PID values
@@ -96,9 +112,9 @@ public final class Constants {
 		public static final double kAllowedError = 0;
 		public static final double kMinVelocity = 0;
 		/*** Distance between center of front wheel and center of back wheel */
-		public static final double kWheelBase = 22.5;
+		public static final double kWheelBase = 21.5;
 		/*** Distance between center of left wheel and center of right wheel */
-		public static final double kTrackWidth = 17.5;
+		public static final double kTrackWidth = 21.5;
 		public static final double kSteerPeriod = 0.02;
 		public static final boolean kFrontLeftDriveInverted = true;
 		public static final boolean kBackLeftDriveInverted = true;
@@ -111,7 +127,13 @@ public final class Constants {
 
 	public static final class SwerveConstants {
 		public static final double gearRatio = 8.14;
-		public static final double wheelDiameter = 4; // in inches
-		public static final double ticksPerAxisRev = 42;
+		public static final double wheelDiameter = 0.1016;  // in meters
+		// public static final double ticksPerAxisRev = 42;
+
+        public static final double kTicksToMeters = (1/gearRatio) * Math.PI * wheelDiameter;
+		public static final double FrontLeftZero = 124.89;
+		public static final double FrontRightZero = 115.66;
+		public static final double BackLeftZero = 277.47;
+		public static final double BackRightZero = 212.73;
 	}
 }

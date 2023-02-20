@@ -19,9 +19,9 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
 import frc.robot.commands.SolenoidCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem.ClawPneumatics;
-import frc.robot.subsystems.PneumaticSubsystem.BrakePneumatics;
-import frc.robot.subsystems.PneumaticSubsystem.PivotPneumatics;
+import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
+import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
+import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

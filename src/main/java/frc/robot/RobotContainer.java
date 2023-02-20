@@ -19,8 +19,9 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
 import frc.robot.commands.SolenoidCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
-import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.PneumaticSubsystem.ClawPneumatics;
+import frc.robot.subsystems.PneumaticSubsystem.BrakePneumatics;
+import frc.robot.subsystems.PneumaticSubsystem.PivotPneumatics;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,7 +34,9 @@ public class RobotContainer {
   private final Joystick m_joystick = new Joystick(ControllerConstants.kDriverControllerPort);
   private final GenericHID m_controller = new GenericHID(ControllerConstants.kDriverControllerPort);
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final PneumaticSubsystem m_pivot = new PneumaticSubsystem(PneumaticSubsystem.Device.PIVOT);
+  private final ClawPneumatics m_claw = new ClawPneumatics();
+  private final PivotPneumatics m_pivot = new PivotPneumatics();
+  private final BrakePneumatics m_brake = new ClawPneumatics();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,7 +70,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),
                                       // new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
-    return new SolenoidCommand(1,2);
+    
   }
 }
 

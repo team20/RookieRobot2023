@@ -45,13 +45,13 @@ public class PneumaticSubsystem extends SubsystemBase {
         m_state = m_solenoid.get();
     }
 
-    public void armBrake() {
-        if (){
-            m_solenoid.disable();
-        } else {
-            m_solenoid.enable();
-        }
-    }
+    // public void armBrake() {
+    //     if (){
+    //         m_solenoid.disable();
+    //     } else {
+    //         m_solenoid.enable();
+    //     }
+    // }
 
     public void gripperControl() {
         if (m_controller.getL1ButtonPressed()) {

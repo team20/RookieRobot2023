@@ -27,16 +27,15 @@ public class CalibrationAutoCommand extends CommandBase {
         m_driveSubsystem = DriveSubsystem.get();
         m_op = op;
         if (m_op == Operation.CMD_DISTANCE) {
-            double wheelCirc = Math.PI * Constants.SwerveConstants.wheelDiameter;
-            double metersToTicks = (Constants.SwerveConstants.ticksPerAxisRev * Constants.SwerveConstants.gearRatio * 39.37) / wheelCirc;
-            m_amount = amount * metersToTicks; 
+            //double wheelCirc = Math.PI * Constants.SwerveConstants.wheelDiameter;
+            //double metersToTicks = (Constants.SwerveConstants.ticksPerAxisRev * Constants.SwerveConstants.gearRatio * 39.37) / wheelCirc;
+            //m_amount = amount * metersToTicks; 
         } else if (m_op == Operation.CMD_ANGLE) { 
             m_amount = amount;
         } else {
             try {
                 throw new Exception("Unsupported command");
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

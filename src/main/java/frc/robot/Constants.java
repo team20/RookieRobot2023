@@ -55,6 +55,18 @@ public final class Constants {
 		}
 	}
 
+	public static final class PneumaticConstants {
+		// CAN ID
+		public static final int kPneumaticHubID = 12;
+		// Pneumatic Ports 
+		public static final int kPivotFwdPort = 0;
+		public static final int kPivotRevPort = 1;
+		public static final int kBrakeFwdPort = 2;
+		public static final int kBrakeRevPort = 3; 
+		public static final int kClawFwdPort = 4;
+		public static final int kClawRevPort = 5;
+	}
+
 	public static final class WeightConstants {
 		public static final int kCANID = 11;  // sparkMax CAD ID
 		public static final int kTopLimitDIO = 0;

@@ -1,13 +1,16 @@
 package frc.robot.commands;
 
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 
 public class PivotPneumaticCommand extends CommandBase {
 		public enum Operation {
-            LOWER, RAISE, TOGGLE };
+            OPEN, CLOSE, TOGGLE };
             
-	protected PneumaticSubsystem m_subsystem;
+	protected PneumaticsSubsystem m_subsystem;
 	protected Operation m_op;
 
 	/**0
@@ -17,8 +20,9 @@ public class PivotPneumaticCommand extends CommandBase {
 	 *            the subsystem controlled by this {@code ControlIntakePneumaticCommand}
 	 * @param operation
 	 *            the operation to carry out
+	 * @return 
 	 */
-	public ControlPivotPneumaticCommand(PneumaticSubsystem subsystem, Operation operation) {
+	public void ControlPivotPneumaticCommand(PneumaticsSubsystem subsystem, Operation operation) {
 		this.m_subsystem = subsystem;
 		addRequirements(subsystem);
 		this.m_op = operation;
@@ -29,11 +33,14 @@ public class PivotPneumaticCommand extends CommandBase {
 	 */
 	@Override
 	public void initialize() {
-		if (operation == Operation.RAISE) {
-			subsystem.raiseIntake();
-		} else {
-			subsystem.lowerIntake();
-		}
+		switch(m_op){
+            case OPEN:
+				((ClawPneumatics) m_subsystem).openClaw();
+            case CLOSE:
+				((ClawPneumatics) m_subsystem).closeClaw();
+			case TOGGLE:
+				((ClawPneumatics) m_subsystem).toggleClaw();
+        }
 	}
 
 	/**
@@ -41,8 +48,8 @@ public class PivotPneumaticCommand extends CommandBase {
 	 */
 	@Override
 	public void end(boolean interrupted) {
-		if (operation == Operation.TOGGLE) {
-			subsystem.raiseIntake();
+		if (m_op == Operation.TOGGLE) {
+			((ClawPneumatics) m_subsystem).openClaw();
 		}
 	}
 
@@ -51,7 +58,7 @@ public class PivotPneumaticCommand extends CommandBase {
 	 */
 	@Override
 	public boolean isFinished() {
-		if (operation == Operation.TOGGLE)
+		if (m_op == Operation.TOGGLE)
 			return false;
 		else
 			return true;

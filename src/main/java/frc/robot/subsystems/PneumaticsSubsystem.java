@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PneumaticConstants;
@@ -33,6 +32,10 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
         public void closeClaw() {
             m_claw.set(DoubleSolenoid.Value.kReverse);
+        }
+
+        public void toggleClaw() {
+            m_claw.toggle();
         }
 
         public void stop() {

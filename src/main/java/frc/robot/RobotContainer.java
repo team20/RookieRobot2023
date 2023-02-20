@@ -18,6 +18,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.CalibrationAutoCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,8 +66,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),
-                                      // new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
+     return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),
+                                      new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
     
   }
 }

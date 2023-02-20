@@ -27,21 +27,14 @@ public class PneumaticsSubsystem extends SubsystemBase {
             m_claw.set(DoubleSolenoid.Value.kForward);
         }
 
-        public void closeClaw() {
-            m_claw.set(DoubleSolenoid.Value.kReverse);
-        }
-<<<<<<< HEAD
+        // public void closeClaw() {
+        //     m_claw.set(DoubleSolenoid.Value.kReverse);
+        // }
 
-        public void toggleClaw() {
-            m_claw.toggle();
-        }
-
-        public void stop() {
-            m_compressor.disable();
-        }
-=======
->>>>>>> 0333af101db3912467d27c8ef35ec8fa605c0adc
-    }
+        // public void toggleClaw() {
+        //     m_claw.toggle();
+        // }
+    };
     public class PivotPneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_pivot;
         Value m_state;
@@ -55,14 +48,14 @@ public class PneumaticsSubsystem extends SubsystemBase {
             m_pivot.set(DoubleSolenoid.Value.kForward);
         }
     
-        public void setReverse() {
-            m_pivot.set(DoubleSolenoid.Value.kReverse);
-        }
+        // public void setReverse() {
+        //     m_pivot.set(DoubleSolenoid.Value.kReverse);
+        // }
 
-        public void setToggle() {
-            m_pivot.toggle();
-        }
-    }
+        // public void setToggle() {
+        //     m_pivot.toggle();
+        // }
+    };
     public class BrakePneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_brake;
         Value m_state;
@@ -75,10 +68,10 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public void armBrake() {
             m_brake.set(DoubleSolenoid.Value.kOff);
         }
-    }   
+    };   
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
     }
-}
+};

@@ -3,11 +3,11 @@ package frc.robot.commands;
 import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ClawPneumaticCommand extends CommandBase {
+public class PivotPneumaticCommand extends CommandBase {
 		public enum Operation {
             LOWER, RAISE, TOGGLE };
             
-	protected ClawPneumaticSubsystem m_subsystem;
+	protected PneumaticSubsystem m_subsystem;
 	protected Operation m_op;
 
 	/**0
@@ -18,7 +18,7 @@ public class ClawPneumaticCommand extends CommandBase {
 	 * @param operation
 	 *            the operation to carry out
 	 */
-	public ControlClaePneumaticCommand(IntakePneumaticSubsystem subsystem, Operation operation) {
+	public ControlPivotPneumaticCommand(PneumaticSubsystem subsystem, Operation operation) {
 		this.m_subsystem = subsystem;
 		addRequirements(subsystem);
 		this.m_op = operation;

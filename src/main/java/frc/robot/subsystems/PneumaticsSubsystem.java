@@ -12,10 +12,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PneumaticConstants;
-import edu.wpi.first.wpilibj.Compressor;
 
 public class PneumaticsSubsystem extends SubsystemBase {
-    public Compressor m_compressor;
     public class ClawPneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_claw;
         Value m_state;
@@ -23,7 +21,6 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public ClawPneumatics() {
             m_claw = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kClawFwdPort, PneumaticConstants.kClawRevPort);
             m_state = m_claw.get();
-            m_compressor = new Compressor(PneumaticsModuleType.REVPH);
         }
 
         public void openClaw() {
@@ -33,10 +30,6 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public void closeClaw() {
             m_claw.set(DoubleSolenoid.Value.kReverse);
         }
-
-        public void stop() {
-            m_compressor.disable();
-        }
     }
     public class PivotPneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_pivot;
@@ -45,11 +38,6 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public PivotPneumatics() {
             m_pivot = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kPivotFwdPort , PneumaticConstants.kPivotRevPort);
             m_state = m_pivot.get();
-            m_compressor = new Compressor(PneumaticsModuleType.REVPH);
-        }
-
-        public void stop() {
-            m_compressor.disable();
         }
 
         public void setForward() {
@@ -71,15 +59,10 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public BrakePneumatics() {
             m_brake = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kBrakeFwdPort, PneumaticConstants.kBrakeRevPort);
             m_state = m_brake.get();
-            m_compressor = new Compressor(PneumaticsModuleType.REVPH);
         }
 
         public void armBrake() {
             m_brake.set(DoubleSolenoid.Value.kOff);
-        }
-
-        public void stop() {
-            m_compressor.disable();
         }
     }   
 

@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PneumaticConstants;
 
 public class PneumaticsSubsystem extends SubsystemBase {
-    public class ClawPneumatics extends PneumaticsSubsystem {
+
+    public static class ClawPneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_claw;
         Value m_state;
 
@@ -27,15 +28,15 @@ public class PneumaticsSubsystem extends SubsystemBase {
             m_claw.set(DoubleSolenoid.Value.kForward);
         }
 
-        // public void closeClaw() {
-        //     m_claw.set(DoubleSolenoid.Value.kReverse);
-        // }
+        public void closeClaw() {
+            m_claw.set(DoubleSolenoid.Value.kReverse);
+        }
 
-        // public void toggleClaw() {
-        //     m_claw.toggle();
-        // }
-    };
-    public class PivotPneumatics extends PneumaticsSubsystem {
+        public void toggleClaw() {
+            m_claw.toggle();
+        }
+    }
+    public static class PivotPneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_pivot;
         Value m_state;
 
@@ -48,15 +49,15 @@ public class PneumaticsSubsystem extends SubsystemBase {
             m_pivot.set(DoubleSolenoid.Value.kForward);
         }
     
-        // public void setReverse() {
-        //     m_pivot.set(DoubleSolenoid.Value.kReverse);
-        // }
+        public void setLower() {
+            m_pivot.set(DoubleSolenoid.Value.kReverse);
+        }
 
-        // public void setToggle() {
-        //     m_pivot.toggle();
-        // }
-    };
-    public class BrakePneumatics extends PneumaticsSubsystem {
+        public void setToggle() {
+            m_pivot.toggle();
+        }
+    }
+    public static class BrakePneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_brake;
         Value m_state;
 
@@ -68,10 +69,10 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public void armBrake() {
             m_brake.set(DoubleSolenoid.Value.kOff);
         }
-    };   
+    }   
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
     }
-};
+}

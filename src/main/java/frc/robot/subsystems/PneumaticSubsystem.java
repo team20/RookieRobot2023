@@ -9,62 +9,74 @@
 
  package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.PneumaticConstants;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class PneumaticSubsystem extends SubsystemBase {
-    
+
     public static enum Device {
-        PIVOT, BRAKE, CLAW
+        PIVOT, BRAKE, GRIPPER
     }
 
     Device m_device;
-    DoubleSolenoid m_solonoid;
+    public static DoubleSolenoid m_solenoid;
     Value m_state;
+    PS4Controller m_controller = new PS4Controller(0);
 
     public PneumaticSubsystem(Device dev) {
         m_device = dev;
         switch(m_device){
             case PIVOT:
-                m_solonoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kPivotFwdPort , PneumaticConstants.kPivotRevPort);
+                m_solenoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kPivotFwdPort , PneumaticConstants.kPivotRevPort);
                 break;
             case BRAKE:
-                m_solonoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kBrakeFwdPort, PneumaticConstants.kBrakeRevPort);
+                m_solenoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kBrakeFwdPort, PneumaticConstants.kBrakeRevPort);
                 break;
-            case CLAW:
-                m_solonoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kClawFwdPort, PneumaticConstants.kClawRevPort);
+            case GRIPPER:
+                m_solenoid = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kClawFwdPort, PneumaticConstants.kClawRevPort);
                 break;
         }
 
-        m_state = m_solonoid.get();
+        m_state = m_solenoid.get();
     }
 
     public void armBrake() {
-        if (ControllerConstants.Button.kCircle){
-            m_solonoid.disable();
+        if (){
+            m_solenoid.disable();
         } else {
-            m_solonoid.enable();
+            m_solenoid.enable();
         }
-
     }
-    
+
+    public void gripperControl() {
+        if (m_controller.getL1ButtonPressed()) {
+            m_solenoid.set(DoubleSolenoid.Value.kForward);
+        } else if (m_controller.getR1ButtonPressed()) {
+            m_solenoid.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+
     public void stop() {
         //compressor.disable();
     }
 
+
+
     public void setForward() {
-        m_solonoid.set(DoubleSolenoid.Value.kForward);
+        m_solenoid.set(DoubleSolenoid.Value.kForward);
     }
 
     public void setReverse() {
-        m_solonoid.set(DoubleSolenoid.Value.kReverse);
+        m_solenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void setToggle() {
-        m_solonoid.toggle();
+        m_solenoid.toggle();
     }
 
     @Override

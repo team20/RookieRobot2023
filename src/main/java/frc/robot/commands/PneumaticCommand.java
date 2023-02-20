@@ -16,7 +16,11 @@ public class PneumaticCommand extends CommandBase {
        super();
        // Use requires() here to declare subsystem dependencies
        // eg. requires(chassis);
+<<<<<<< HEAD
        requires(PneumaticSubsystem.m_solonoid);
+=======
+       requires(PneumaticSubsystem.m_solenoid);
+>>>>>>> 64b48565e943e8c73ca5b9dd5117ad5dc73938ca
 
     }
 

@@ -1,9 +1,9 @@
 package frc.robot.commands;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
+import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 
-public class PivotPneumaticCommand extends CommandBase {
+public class ClawPneumaticCommand extends CommandBase {
 		public enum Operation {
             OPEN, CLOSE, TOGGLE };
             
@@ -19,7 +19,7 @@ public class PivotPneumaticCommand extends CommandBase {
 	 *            the operation to carry out
 	 * @return 
 	 */
-	public void ControlPivotPneumaticCommand(PneumaticsSubsystem subsystem, Operation operation) {
+	public void ControlClawPneumaticCommand(PneumaticsSubsystem subsystem, Operation operation) {
 		this.m_subsystem = subsystem;
 		addRequirements(subsystem);
 		this.m_op = operation;
@@ -32,11 +32,11 @@ public class PivotPneumaticCommand extends CommandBase {
 	public void initialize() {
 		switch(m_op){
             case OPEN:
-				((PivotPneumatics) m_subsystem).setRaise();
+				((ClawPneumatics) m_subsystem).openClaw();
             case CLOSE:
-				((PivotPneumatics) m_subsystem).setLower();
+				((ClawPneumatics) m_subsystem).closeClaw();
 			case TOGGLE:
-				((PivotPneumatics) m_subsystem).setToggle();
+				((ClawPneumatics) m_subsystem).toggleClaw();
         }
 	}
 
@@ -46,7 +46,7 @@ public class PivotPneumaticCommand extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		if (m_op == Operation.TOGGLE) {
-			((PivotPneumatics) m_subsystem).setRaise();
+			((ClawPneumatics) m_subsystem).openClaw();
 		}
 	}
 

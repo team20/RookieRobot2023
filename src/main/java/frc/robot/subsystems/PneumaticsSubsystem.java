@@ -30,7 +30,6 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public void closeClaw() {
             m_claw.set(DoubleSolenoid.Value.kReverse);
         }
-<<<<<<< HEAD
 
         public void toggleClaw() {
             m_claw.toggle();
@@ -39,8 +38,6 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public void stop() {
             m_compressor.disable();
         }
-=======
->>>>>>> 0333af101db3912467d27c8ef35ec8fa605c0adc
     }
     public class PivotPneumatics extends PneumaticsSubsystem {
         public DoubleSolenoid m_pivot;
@@ -51,11 +48,11 @@ public class PneumaticsSubsystem extends SubsystemBase {
             m_state = m_pivot.get();
         }
 
-        public void setForward() {
+        public void setRaise() {
             m_pivot.set(DoubleSolenoid.Value.kForward);
         }
     
-        public void setReverse() {
+        public void setLower() {
             m_pivot.set(DoubleSolenoid.Value.kReverse);
         }
 

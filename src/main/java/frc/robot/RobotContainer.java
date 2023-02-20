@@ -7,17 +7,22 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
+import frc.robot.Constants.ControllerConstants.DPad;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
+import frc.robot.commands.PivotPneumaticCommand;
+import frc.robot.commands.ClawPneumaticCommand;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.CalibrationAutoCommand;
 
@@ -60,8 +65,15 @@ public class RobotContainer {
     new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
         .onTrue(new ResetToZeroDegreesCommand());
 
-    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kCircle))
-        .onTrue(new InstantCommand(()-> m_pivot.setToggle()));
+    
+    new POVButton(m_controller, DPad.kUp).or(new POVButton(m_controller, DPad.kUpLeft))
+                  .or(new POVButton(m_controller, DPad.kUpRight))
+                  .whileTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.RAISE));
+
+
+
+
+
 
   }
 

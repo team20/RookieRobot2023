@@ -52,6 +52,12 @@ public final class Constants {
 			public static final int kRight = 90;
 			public static final int kDown = 180;
 			public static final int kLeft = 270;
+			// MUST declare constants for combo button press!!
+			// i.e.  KUpLeft and KUpRight also actives 'up'
+			public static final int kUpLeft = 315;
+			public static final int kUpRight = 45;
+			public static final int kDownLeft = 135;
+			public static final int kDownRight = 225;
 		}
 	}
 	public static final class PneumaticConstants {

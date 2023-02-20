@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PneumaticConstants;
-import frc.robot.subsystems.PneumaticSubsystem.Device;
 import edu.wpi.first.wpilibj.Compressor;
 
 public class PneumaticsSubsystem extends SubsystemBase {
@@ -25,6 +24,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public ClawPneumatics() {
             m_claw = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kClawFwdPort, PneumaticConstants.kClawRevPort);
             m_state = m_claw.get();
+            m_compressor = new Compressor(PneumaticsModuleType.REVPH);
         }
 
         public void openClaw() {
@@ -36,7 +36,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
         }
 
         public void stop() {
-            compressor.disable();
+            m_compressor.disable();
         }
     }
     public class PivotPneumatics extends PneumaticsSubsystem {
@@ -46,10 +46,23 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public PivotPneumatics() {
             m_pivot = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kPivotFwdPort , PneumaticConstants.kPivotRevPort);
             m_state = m_pivot.get();
+            m_compressor = new Compressor(PneumaticsModuleType.REVPH);
         }
 
         public void stop() {
-            compressor.disable();
+            m_compressor.disable();
+        }
+
+        public void setForward() {
+            m_pivot.set(DoubleSolenoid.Value.kForward);
+        }
+    
+        public void setReverse() {
+            m_pivot.set(DoubleSolenoid.Value.kReverse);
+        }
+
+        public void setToggle() {
+            m_pivot.toggle();
         }
     }
     public class BrakePneumatics extends PneumaticsSubsystem {
@@ -59,6 +72,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
         public BrakePneumatics() {
             m_brake = new DoubleSolenoid(PneumaticConstants.kPneumaticHubID, PneumaticsModuleType.REVPH, PneumaticConstants.kBrakeFwdPort, PneumaticConstants.kBrakeRevPort);
             m_state = m_brake.get();
+            m_compressor = new Compressor(PneumaticsModuleType.REVPH);
         }
 
         public void armBrake() {
@@ -66,21 +80,9 @@ public class PneumaticsSubsystem extends SubsystemBase {
         }
 
         public void stop() {
-            compressor.disable();
+            m_compressor.disable();
         }
     }   
-
-    public void setForward() {
-        m_solenoid.set(DoubleSolenoid.Value.kForward);
-    }
-
-    public void setReverse() {
-        m_solenoid.set(DoubleSolenoid.Value.kReverse);
-    }
-
-    public void setToggle() {
-        m_solenoid.toggle();
-    }
 
     @Override
     public void periodic() {

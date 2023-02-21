@@ -66,16 +66,23 @@ public class RobotContainer {
         .onTrue(new ResetToZeroDegreesCommand());
 
     
+    // Register button(s) to raise (pivot) the claw
     new POVButton(m_controller, DPad.kUp).or(new POVButton(m_controller, DPad.kUpLeft))
                   .or(new POVButton(m_controller, DPad.kUpRight))
                   .onTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.RAISE));
 
+    // Register button(s) to lower (pivot) the claw
+    new POVButton(m_controller, DPad.kDown).or(new POVButton(m_controller, DPad.kDownLeft))
+                  .or(new POVButton(m_controller, DPad.kDownRight))
+                  .onTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.LOWER));
+
+    // Register button to open the claw
     new JoystickButton(m_controller, Button.kLeftBumper)
                       .onTrue(new ClawPneumaticCommand(m_claw, ClawPneumaticCommand.Operation.OPEN));
 
-
-
-
+    // Register button to close the claw
+    new JoystickButton(m_controller, Button.kRightBumper)
+    .onTrue(new ClawPneumaticCommand(m_claw, ClawPneumaticCommand.Operation.CLOSE));
 
 
   }

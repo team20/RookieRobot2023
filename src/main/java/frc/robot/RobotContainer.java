@@ -19,7 +19,6 @@ import frc.robot.Constants.ControllerConstants.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
 import frc.robot.commands.PivotPneumaticCommand;
@@ -41,7 +40,6 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClawPneumatics m_claw = new ClawPneumatics();
   private final PivotPneumatics m_pivot = new PivotPneumatics();
-  private final BrakePneumatics m_brake = new BrakePneumatics();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

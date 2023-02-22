@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.commands.DefaultArmCommand;
+import frc.robot.commands.CounterWeightCommand;
 import frc.robot.commands.CalibrationAutoCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
@@ -28,8 +29,9 @@ import frc.robot.subsystems.DriveSubsystem;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Joystick m_joystick1 = new Joystick(ControllerConstants.kDriverControllerPort);
-  private final Joystick m_joystick2 = new Joystick(ControllerConstants.kOperatorControllerPort);
+  private final Joystick m_djoystick1 = new Joystick(ControllerConstants.kDriverControllerPort);
+  private final Joystick m_djoystick2 = new Joystick(ControllerConstants.kDriverControllerPort);
+  private final Joystick m_ojoystick2 = new Joystick(ControllerConstants.kOperatorControllerPort);
   private final GenericHID m_controller = new GenericHID(ControllerConstants.kDriverControllerPort);
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
@@ -53,14 +55,19 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
             m_driveSubsystem,
-            () -> m_joystick1.getRawAxis(Axis.kLeftX),
-            () -> m_joystick1.getRawAxis(Axis.kLeftY),
-            () -> m_joystick1.getRawAxis(Axis.kRightX)));
+            () -> m_djoystick1.getRawAxis(Axis.kLeftX),
+            () -> m_djoystick1.getRawAxis(Axis.kLeftY),
+            () -> m_djoystick1.getRawAxis(Axis.kRightX)));
 
     m_armSubsystem.setDefaultCommand(
         new DefaultArmCommand(
             m_armSubsystem,
-            () -> m_joystick2.getRawAxis(Axis.kLeftY)));
+            () -> m_ojoystick2.getRawAxis(Axis.kRightY)));
+
+    m_counterWeightSubsystem.setDefaultCommand(
+        new CounterWeightCommand(
+            m_counterWeightSubsystem,
+            () -> m_djoystick2.getRawAxis(Axis.kRightX)));
 
     new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
         .onTrue(new ResetToZeroDegreesCommand());

@@ -59,8 +59,7 @@ public class CounterWeightSubsystem extends SubsystemBase {
   /**
    * Makes our drive motors spin at the specified speeds
    * 
-   * @param counterWeightSpeed
-   *   Speed of the front left wheel in duty cycles [-1, 1]
+   * @param speed valid range [-1, 1]
    */
   public void setDriveMotors(double speed) {
     // Ensure speed is within valid range

@@ -12,8 +12,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.WeightConstants;
-import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import java.lang.Math;
 
@@ -37,7 +35,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
     m_subsystem = this;
     configMotorController();
-    }
   }
 
   public static ArmSubsystem get() {
@@ -61,9 +58,9 @@ public class ArmSubsystem extends SubsystemBase {
    * Drive the motor at the specified speed
    * 
    * @param speed
-   *   Speed of the front left wheel in duty cycles [-1, 1]
+   *   Valid Speed  range [-1, 1]
    */
-  public void setDriveSpeed(double speed) {
+  public void setMotorSpeed(double speed) {
     // Ensure speed is within valid range
     speed = Math.min(1, Math.max(speed, -1));
     m_motor.set(speed);

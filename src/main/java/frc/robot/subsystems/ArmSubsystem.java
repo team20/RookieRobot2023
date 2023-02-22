@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -13,52 +12,41 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.WeightConstants;
-import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import java.lang.Math;
 
 public class ArmSubsystem extends SubsystemBase {
-  private CANSparkMax m_armMotor = new CANSparkMax(ArmConstants.kCANDICE, MotorType.kBrushless);
-  public RelativeEncoder m_armMotorEncoder = m_armMotor.getEncoder();
-  private static ArmSubsystem a_subsystem;
-  private static PneumaticsSubsystem p_subsystem;
+  private CANSparkMax m_motor = new CANSparkMax(ArmConstants.kCANDICE, MotorType.kBrushless);
+  public RelativeEncoder m_armMotorEncoder = m_motor.getEncoder();
+  private static ArmSubsystem m_subsystem = null;
+  private static BrakePneumatics m_brake = new BrakePneumatics();
   DigitalInput m_aTopSwitch = new DigitalInput(ArmConstants.kArmTopLimitDIO);
   DigitalInput m_aBotSwitch = new DigitalInput(ArmConstants.kArmBotLimitDIO);
 
   /** Creates a new ArmSubsystem. */
   public ArmSubsystem() {
     // Singleton
-    if (a_subsystem != null) {
+    if (m_subsystem != null) {
       try {
         throw new Exception("Arm subsystem already initalized!");
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-    a_subsystem = this;
-
-     // Initialize motors, PID controllers
-    {
-      configMotorController(m_armMotor);
-    }
+    m_subsystem = this;
+    configMotorController();
   }
 
   public static ArmSubsystem get() {
-    return a_subsystem;
+    return m_subsystem;
   }
 
-  /***
-   * Configures our motors with the exact same settings
-   * 
-   * @param motorController
-   *                        The CANSparkMax to configure
-   */
-  public static void configMotorController(CANSparkMax motorController) {
-    motorController.restoreFactoryDefaults();
-    motorController.setIdleMode(IdleMode.kBrake);
-    motorController.enableVoltageCompensation(12);
-    motorController.setSmartCurrentLimit(10);
+
+  public void configMotorController() {
+    m_motor.restoreFactoryDefaults();
+    m_motor.setIdleMode(IdleMode.kBrake);
+    m_motor.enableVoltageCompensation(12);
+    m_motor.setSmartCurrentLimit(10);
   }
 
   // reset arm
@@ -67,27 +55,23 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   /**
-   * Makes our drive motors spin at the specified speeds
+   * Drive the motor at the specified speed
    * 
-   * @param armSpeed
-   *   Speed of the front left wheel in duty cycles [-1, 1]
+   * @param speed
+   *   Valid Speed  range [-1, 1]
    */
-  public void setDriveMotors(double speed) {
+  public void setMotorSpeed(double speed) {
     // Ensure speed is within valid range
     speed = Math.min(1, Math.max(speed, -1));
-    m_armMotor.set(speed);
-    boolean isHit = (speed > 0) ? m_aTopSwitch.get() : m_aBotSwitch.get();
-    if (isHit) {
-      ((BrakePneumatics) p_subsystem).armBrake();
-    } else {
-      ((BrakePneumatics) p_subsystem).armInMovement();
-    }
+    m_motor.set(speed);
   }
 
  @Override
   public void periodic() {
-    m_armMotor.set(.5);
-    // m_armMotor.set(m_backRightPIDController.calculate(m_backRightCANCoder.getAbsolutePosition()));
-    // add pid controller for arm?? is it needed?
+    double speed = m_motor.get();
+    if(Math.abs(speed) > 0)
+      m_brake.disengage();
+    else
+      m_brake.engage();
   }
 };

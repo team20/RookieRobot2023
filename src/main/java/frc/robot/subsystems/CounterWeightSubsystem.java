@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -13,7 +12,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.WeightConstants;
-import frc.robot.Constants.ArmConstants;
 import java.lang.Math;
 
 public class CounterWeightSubsystem extends SubsystemBase {
@@ -61,8 +59,7 @@ public class CounterWeightSubsystem extends SubsystemBase {
   /**
    * Makes our drive motors spin at the specified speeds
    * 
-   * @param counterWeightSpeed
-   *   Speed of the front left wheel in duty cycles [-1, 1]
+   * @param speed valid range [-1, 1]
    */
   public void setDriveMotors(double speed) {
     // Ensure speed is within valid range

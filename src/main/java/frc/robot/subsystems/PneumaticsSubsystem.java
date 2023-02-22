@@ -46,14 +46,17 @@ public class PneumaticsSubsystem extends SubsystemBase {
         }
 
         public void setRaise() {
+            System.out.println("raise claw");
             m_pivot.set(DoubleSolenoid.Value.kForward);
         }
     
         public void setLower() {
+            System.out.println("lower claw");
             m_pivot.set(DoubleSolenoid.Value.kReverse);
         }
 
         public void setToggle() {
+            System.out.println("toggle claw");
             m_pivot.toggle();
         }
     }

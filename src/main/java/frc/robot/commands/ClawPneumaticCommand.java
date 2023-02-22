@@ -3,7 +3,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 
 public class ClawPneumaticCommand extends CommandBase {
-		public enum Operation { OPEN, CLOSE, TOGGLE };
+	public enum Operation { OPEN, CLOSE, TOGGLE };
             
 	protected ClawPneumatics m_claw;
 	protected Operation m_op;
@@ -16,6 +16,7 @@ public class ClawPneumaticCommand extends CommandBase {
 
 	@Override
 	public void initialize() {
+		System.out.println("Claw initialize");
 		switch(m_op) {
             case OPEN:   m_claw.openClaw();    break;
             case CLOSE:  m_claw.closeClaw();   break;

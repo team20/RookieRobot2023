@@ -23,7 +23,6 @@ import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
 import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
 import frc.robot.commands.PivotPneumaticCommand;
 import frc.robot.commands.ClawPneumaticCommand;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.CalibrationAutoCommand;
 
@@ -56,6 +55,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     m_driveSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
             m_driveSubsystem,

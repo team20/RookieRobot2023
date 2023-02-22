@@ -41,9 +41,6 @@ public class DefaultArmCommand extends CommandBase {
     // Get the foward, strafe, and rotation speed, using a deadband on the joystick
     // input so slight movements don't move the robot
     double speed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
-    // double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
-
-    // Move the robot
-    m_armSubsystem.setDriveMotors(speed);
+    m_armSubsystem.setMotorSpeed(speed);
   }
 }

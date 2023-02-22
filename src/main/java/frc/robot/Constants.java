@@ -27,9 +27,10 @@ public final class Constants {
 			public static final int kLeftX = 0;
 			public static final int kLeftY = 1;
 			public static final int kRightX = 2;
+			public static final int kRightY = 5;
 			public static final int kLeftTrigger = 3;
 			public static final int kRightTrigger = 4;
-			public static final int kRightY = 5;
+			
 		}
 
 		public static final class Button {

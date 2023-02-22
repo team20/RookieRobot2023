@@ -10,10 +10,17 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.subsystems.CounterWeightSubsystem;
+import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import frc.robot.Constants.WeightConstants;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class CounterWeightCommand extends CommandBase {
   private final CounterWeightSubsystem m_counterWeightSubsystem;
+  private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
   private Supplier<Double> m_xAxisDrive;
+  private AHRS navx;
+  private final double Kp = 0.03;
 
   public CounterWeightCommand(CounterWeightSubsystem counterWeightSubsystem, Supplier<Double> xAxisDrive) {
     m_counterWeightSubsystem = counterWeightSubsystem;
@@ -23,6 +30,7 @@ public class CounterWeightCommand extends CommandBase {
 
   @Override
   public void initialize() {
+    navx = new AHRS(SPI.Port.kMXP);
   }
 
   /**
@@ -36,6 +44,21 @@ public class CounterWeightCommand extends CommandBase {
     // input so slight movements don't move the robot
     double speed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
     // double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
+
+    double pitch = navx.getPitch();
+    double target = 0; // TODO reset pitch
+    double error = pitch - target;
+
+
+    //TODO check this bc it's definitely wrong ESPECIALLY the speed!!!!!!!!!!!!!!!!!!!!!!! :c
+    // dean sucks
+    if (error > 2) {
+      m_counterWeightMotor.set(speed);
+    } else if (error < -2) {
+      m_counterWeightMotor.set(-speed);
+    } else {
+      m_counterWeightMotor.set(0);
+    }
 
     // Move the robot
     m_counterWeightSubsystem.setDriveMotors(speed);

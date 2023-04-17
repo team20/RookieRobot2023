@@ -58,32 +58,31 @@ public class DefaultDriveCommand extends CommandBase {
 
     double leftStickMagnitude = Math.sqrt( fwdSpeed * fwdSpeed + strSpeed * strSpeed);
     double leftStickAngle = Math.atan2(strSpeed, fwdSpeed);
-    /* 
-    // Random intermediate math
-    double a = strSpeed - rotSpeed * (m_wheelBase / 2);
-    double b = strSpeed + rotSpeed * (m_wheelBase / 2);brav
-    double c = fwdSpeed - rotSpeed * (m_trackWidth / 2);
-    double d = fwdSpeed + rotSpeed * (m_trackWidth / 2);
-    */
+    
+    // NavX returns gyro andle in degrees
+    // Calculations below need radians
+    double gyroAngleRad = Math.toRadians(m_driveSubsystem.getHeading());
 
-    double Deg2Rad = 0.0174532924F;
-    double gyroAngle = 0;//Deg2Rad * m_driveSubsystem.getHeading();
+    // Rotation speed offsets for each wheel
+    final double cos45 = Math.cos(Math.toRadians(45));
+    final double cos135 = Math.cos(Math.toRadians(135));
+    final double sin135 = Math.sin(Math.toRadians(135));
+    final double sin225 = Math.sin(Math.toRadians(225));
+    
 
     // The y component of the FL and BL wheels
-    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * 135));
+    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) - rotSpeed * sin135);
     // The y component of the FR and BR wheels
-    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) - rotSpeed * Math.sin(Deg2Rad * 225));
+    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) - rotSpeed * sin225);
     //The x component of the FL and FR
-    double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * 135));
+    double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) - rotSpeed * cos135);
     //The x component of the BL and BR
-    double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) - rotSpeed * Math.cos(Deg2Rad * 45));
+    double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) - rotSpeed * cos45);
 
-    double FRONTLEFTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) + rotSpeed * Math.cos(Deg2Rad * 135));
-    double FRONTLEFTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) + rotSpeed * Math.sin(Deg2Rad * 135));
-
-
-    double BACKRIGHTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngle) + rotSpeed * Math.cos(Deg2Rad * 45));
-    double BACKRIGHTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngle) + rotSpeed * Math.sin(Deg2Rad * 225));
+    double FRONTLEFTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) + rotSpeed * cos135);
+    double FRONTLEFTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) + rotSpeed * sin135);
+    double BACKRIGHTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) + rotSpeed * cos45);
+    double BACKRIGHTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) + rotSpeed * sin225);
 
     // Calculate the wheel speeds
     double frontLeftSpeed = Math.sqrt(b * b + d * d);
@@ -91,36 +90,19 @@ public class DefaultDriveCommand extends CommandBase {
     double backLeftSpeed = Math.sqrt(a * a + d * d);
     double backRightSpeed = Math.sqrt(a * a + c * c);
     // Initalizing the highest speed, saves one if statement
-    double highestSpeed = frontRightSpeed;
-    // Normalize wheel speeds if they are calculated to be over 1
-    if (frontRightSpeed > 1 || frontLeftSpeed > 1 || backRightSpeed > 1 || backLeftSpeed > 1) {
-      // Get the highest speed
-      if (highestSpeed < frontLeftSpeed) {
-        highestSpeed = frontLeftSpeed;
-      }
-      if (highestSpeed < backRightSpeed) {
-        highestSpeed = backRightSpeed;
-      }
-      if (highestSpeed < backLeftSpeed) {
-        highestSpeed = backLeftSpeed;
-      }
-      // Normalize all speeds so the fastest one is set to 1
-      frontRightSpeed /= highestSpeed;
-      frontLeftSpeed /= highestSpeed;
-      backRightSpeed /= highestSpeed;
-      backLeftSpeed /= highestSpeed;
-    }
-    // Calculate the wheel angles in degrees
-    // double flOffset = (132.92 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    // double frOffset = (127.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    // double blOffset = (147.31 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
-    // double brOffset = (91.14 * ((Math.abs(rotSpeed) > 0.05) ? 1 : 0));
+    double highestSpeed = frontLeftSpeed;
 
-    // double frontLeftAngle = Math.toDegrees(Math.atan2(b, d) + flOffset);
-    // double frontRightAngle = Math.toDegrees(Math.atan2(b, c) + frOffset);
-    // double backRightAngle = Math.toDegrees(Math.atan2(a, c)) + brOffset;
-    // double backLeftAngle = Math.toDegrees(Math.atan2(a, d) + blOffset);
+    // Get max speed of all 4 wheels
+    highestSpeed = Math.max(highestSpeed, Math.abs(frontRightSpeed));
+    highestSpeed = Math.max(highestSpeed, Math.abs(backLeftSpeed));
+    highestSpeed = Math.max(highestSpeed, Math.abs(backRightSpeed));
 
+      // Normalize all speeds to the max speed so nothing is > 1
+    frontRightSpeed /= highestSpeed;
+    frontLeftSpeed /= highestSpeed;
+    backRightSpeed /= highestSpeed;
+    backLeftSpeed /= highestSpeed;
+    
     double frontLeftAngle = Math.toDegrees(Math.atan2(FRONTLEFTY, FRONTLEFTX));
     double frontRightAngle = Math.toDegrees(Math.atan2(a, d));
     double backLeftAngle = Math.toDegrees(Math.atan2(b, c));

@@ -61,7 +61,8 @@ public class DefaultDriveCommand extends CommandBase {
     
     // NavX returns gyro andle in degrees
     // Calculations below need radians
-    double gyroAngleRad = Math.toRadians(m_driveSubsystem.getNavx().getYaw());
+    double gyroAngleRad = 0;
+    // Math.toRadians(m_driveSubsystem.getNavx().getYaw());
 
     // Rotation speed offsets for each wheel
     final double cos45 = Math.cos(Math.toRadians(45));

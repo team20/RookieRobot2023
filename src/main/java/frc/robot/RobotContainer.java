@@ -52,8 +52,8 @@ public class RobotContainer {
             () -> m_joystick.getRawAxis(Axis.kLeftX),
             () -> m_joystick.getRawAxis(Axis.kLeftY),
             () -> m_joystick.getRawAxis(Axis.kRightX)));
-    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
-        .onTrue(new ResetToZeroDegreesCommand());
+    // new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
+    //     .onTrue(new ResetToZeroDegreesCommand());
 
     new Trigger(() -> m_controller.getRawButton(ControllerConstants.Axis.kLeftTrigger))
         .onTrue(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, -90));

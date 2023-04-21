@@ -16,6 +16,7 @@ public class ResetToZeroDegreesCommand extends CommandBase {
 
   @Override
   public void initialize() {
+    // m_driveSubsystem.resetHeading();
     m_driveSubsystem.setWheelRotationToZeroDegrees();
   }
 }

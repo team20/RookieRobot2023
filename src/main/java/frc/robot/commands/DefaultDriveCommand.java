@@ -61,7 +61,7 @@ public class DefaultDriveCommand extends CommandBase {
     
     // NavX returns gyro andle in degrees
     // Calculations below need radians
-    double gyroAngleRad = Math.toRadians(m_driveSubsystem.getHeading());
+    double gyroAngleRad = Math.toRadians(m_driveSubsystem.getNavx().getYaw());
 
     // Rotation speed offsets for each wheel
     final double cos45 = Math.cos(Math.toRadians(45));
@@ -71,18 +71,18 @@ public class DefaultDriveCommand extends CommandBase {
     
 
     // The y component of the FL and BL wheels
-    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) - rotSpeed * sin135);
+    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) - rotSpeed * sin135);
     // The y component of the FR and BR wheels
-    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) - rotSpeed * sin225);
+    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) - rotSpeed * sin225);
     //The x component of the FL and FR
-    double d = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) - rotSpeed * cos135);
+    double d = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) - rotSpeed * cos135);
     //The x component of the BL and BR
-    double c = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) - rotSpeed * cos45);
+    double c = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) - rotSpeed * cos45);
 
-    double FRONTLEFTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) + rotSpeed * cos135);
-    double FRONTLEFTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) + rotSpeed * sin135);
-    double BACKRIGHTX = (leftStickMagnitude * Math.cos(leftStickAngle - gyroAngleRad) + rotSpeed * cos45);
-    double BACKRIGHTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle - gyroAngleRad) + rotSpeed * sin225);
+    double FRONTLEFTX = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) + rotSpeed * cos135);
+    double FRONTLEFTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) + rotSpeed * sin135);
+    double BACKRIGHTX = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) + rotSpeed * cos45);
+    double BACKRIGHTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) + rotSpeed * sin225);
 
     // Calculate the wheel speeds
     double frontLeftSpeed = Math.sqrt(b * b + d * d);
@@ -98,10 +98,12 @@ public class DefaultDriveCommand extends CommandBase {
     highestSpeed = Math.max(highestSpeed, Math.abs(backRightSpeed));
 
       // Normalize all speeds to the max speed so nothing is > 1
-    frontRightSpeed /= highestSpeed;
-    frontLeftSpeed /= highestSpeed;
-    backRightSpeed /= highestSpeed;
-    backLeftSpeed /= highestSpeed;
+    if (highestSpeed > 0) {
+      frontRightSpeed /= highestSpeed;
+      frontLeftSpeed /= highestSpeed;
+      backRightSpeed /= highestSpeed;
+      backLeftSpeed /= highestSpeed;
+    }
     
     double frontLeftAngle = Math.toDegrees(Math.atan2(FRONTLEFTY, FRONTLEFTX));
     double frontRightAngle = Math.toDegrees(Math.atan2(a, d));
@@ -111,21 +113,22 @@ public class DefaultDriveCommand extends CommandBase {
     
     // SmartDashboard logging
     {
-      // SmartDashboard.putNumber("Foward Speed", fwdSpeed);
-      // SmartDashboard.putNumber("Strafe Speed", strSpeed);
-      // SmartDashboard.putNumber("Rotation Speed", rotSpeed);
-      // SmartDashboard.putNumber("a", a);
-      // SmartDashboard.putNumber("b", b);
-      // SmartDashboard.putNumber("c", c);
-      // SmartDashboard.putNumber("d", d);
-      // SmartDashboard.putNumber("Front Right Wheel Speed", frontRightSpeed);
-      // SmartDashboard.putNumber("Front Left Wheel Speed", frontLeftSpeed);
-      // SmartDashboard.putNumber("Back Right Wheel Speed", backRightSpeed);
-      // SmartDashboard.putNumber("Back Left Wheel Speed", backLeftSpeed);
+      SmartDashboard.putNumber("Foward Speed", fwdSpeed);
+      SmartDashboard.putNumber("Strafe Speed", strSpeed);
+      SmartDashboard.putNumber("Rotation Speed", rotSpeed);
+      SmartDashboard.putNumber("a", a);
+      SmartDashboard.putNumber("b", b);
+      SmartDashboard.putNumber("c", c);
+      SmartDashboard.putNumber("d", d);
+      SmartDashboard.putNumber("Front Right Wheel Speed", frontRightSpeed);
+      SmartDashboard.putNumber("Front Left Wheel Speed", frontLeftSpeed);
+      SmartDashboard.putNumber("Back Right Wheel Speed", backRightSpeed);
+      SmartDashboard.putNumber("Back Left Wheel Speed", backLeftSpeed);
       SmartDashboard.putNumber("Front Right Wheel Angle", frontRightAngle);
       SmartDashboard.putNumber("Front Left Wheel Angle", frontLeftAngle);
       SmartDashboard.putNumber("Back Right Wheel Angle", backRightAngle);
       SmartDashboard.putNumber("Back Left Wheel Angle", backLeftAngle);
+      SmartDashboard.putNumber("NavX yaw angle", Math.toDegrees(gyroAngleRad));
 
     }
 

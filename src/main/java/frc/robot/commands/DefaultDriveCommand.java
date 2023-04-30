@@ -61,39 +61,28 @@ public class DefaultDriveCommand extends CommandBase {
     
     // NavX returns gyro andle in degrees
     // Calculations below need radians
-    double gyroAngleRad = 0;
-    // Math.toRadians(m_driveSubsystem.getNavx().getYaw());
+    double gyroAngleRad = 0;     // Math.toRadians(m_driveSubsystem.getNavx().getYaw());
 
-    // Rotation speed offsets for each wheel
-    final double cos45 = Math.cos(Math.toRadians(45));
-    final double cos135 = Math.cos(Math.toRadians(135));
-    final double sin135 = Math.sin(Math.toRadians(135));
-    final double sin225 = Math.sin(Math.toRadians(225));
     
+    // BL & BR x component
+    double A = strSpeed - 0.5*leftStickAngle*m_wheelBase;
+    // FL & FR x component
+    double B = strSpeed + 0.5*leftStickAngle*m_wheelBase;
+    // BR & FR y component
+    double C = fwdSpeed - 0.5*leftStickAngle*m_wheelBase;
+    // FL & FR y component
+    double D = fwdSpeed + 0.5*leftStickAngle*m_wheelBase;
 
-    // The y component of the FL and BL wheels
-    double b = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) - rotSpeed * sin135);
-    // The y component of the FR and BR wheels
-    double a = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) - rotSpeed * sin225);
-    //The x component of the FL and FR
-    double d = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) - rotSpeed * cos135);
-    //The x component of the BL and BR
-    double c = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) - rotSpeed * cos45);
 
-    double FRONTLEFTX = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) + rotSpeed * cos135);
-    double FRONTLEFTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) + rotSpeed * sin135);
-    double BACKRIGHTX = (leftStickMagnitude * Math.cos(leftStickAngle + gyroAngleRad) + rotSpeed * cos45);
-    double BACKRIGHTY = (Math.abs(leftStickMagnitude) * Math.sin(leftStickAngle + gyroAngleRad) + rotSpeed * sin225);
 
     // Calculate the wheel speeds
-    double frontLeftSpeed = Math.sqrt(b * b + d * d);
-    double frontRightSpeed = Math.sqrt(b * b + c * c);
-    double backLeftSpeed = Math.sqrt(a * a + d * d);
-    double backRightSpeed = Math.sqrt(a * a + c * c);
+    double frontRightSpeed = Math.sqrt(B * B + C * C);
+    double frontLeftSpeed = Math.sqrt(B * B + D * D);
+    double backLeftSpeed = Math.sqrt(A * A + D * D);
+    double backRightSpeed = Math.sqrt(A * A + C * C);
+
     // Initalizing the highest speed, saves one if statement
     double highestSpeed = frontLeftSpeed;
-
-    // Get max speed of all 4 wheels
     highestSpeed = Math.max(highestSpeed, Math.abs(frontRightSpeed));
     highestSpeed = Math.max(highestSpeed, Math.abs(backLeftSpeed));
     highestSpeed = Math.max(highestSpeed, Math.abs(backRightSpeed));
@@ -106,10 +95,10 @@ public class DefaultDriveCommand extends CommandBase {
       backLeftSpeed /= highestSpeed;
     }
     
-    double frontLeftAngle = Math.toDegrees(Math.atan2(FRONTLEFTY, FRONTLEFTX));
-    double frontRightAngle = Math.toDegrees(Math.atan2(a, d));
-    double backLeftAngle = Math.toDegrees(Math.atan2(b, c));
-    double backRightAngle = Math.toDegrees(Math.atan2(BACKRIGHTY, BACKRIGHTX));
+    double frontRightAngle = Math.toDegrees(Math.atan2(B, C));
+    double frontLeftAngle = Math.toDegrees(Math.atan2(B, D));
+    double backLeftAngle = Math.toDegrees(Math.atan2(A, D));
+    double backRightAngle = Math.toDegrees(Math.atan2(A, C));
 
     
     // SmartDashboard logging
@@ -117,10 +106,10 @@ public class DefaultDriveCommand extends CommandBase {
       SmartDashboard.putNumber("Foward Speed", fwdSpeed);
       SmartDashboard.putNumber("Strafe Speed", strSpeed);
       SmartDashboard.putNumber("Rotation Speed", rotSpeed);
-      SmartDashboard.putNumber("a", a);
-      SmartDashboard.putNumber("b", b);
-      SmartDashboard.putNumber("c", c);
-      SmartDashboard.putNumber("d", d);
+      SmartDashboard.putNumber("a", A);
+      SmartDashboard.putNumber("b", B);
+      SmartDashboard.putNumber("c", C);
+      SmartDashboard.putNumber("d", D);
       SmartDashboard.putNumber("Front Right Wheel Speed", frontRightSpeed);
       SmartDashboard.putNumber("Front Left Wheel Speed", frontLeftSpeed);
       SmartDashboard.putNumber("Back Right Wheel Speed", backRightSpeed);
@@ -133,10 +122,9 @@ public class DefaultDriveCommand extends CommandBase {
 
     }
 
-    if(leftStickMagnitude + Math.abs(rotSpeed) > 0.1){
-      // Move the robot
+    // Only set sterring if the wheels are moving  
+    if(leftStickMagnitude + Math.abs(rotSpeed) > 0.1)
       m_driveSubsystem.setSteerMotors(frontLeftAngle, frontRightAngle, backLeftAngle, backRightAngle);
-    }
     m_driveSubsystem.setDriveMotors(frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed);
   }
 }

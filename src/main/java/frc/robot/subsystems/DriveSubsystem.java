@@ -161,6 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRightSwerveModule.getSteerMotor().set(m_backRightSwerveModule.getPIDController().calculate(m_backRightSwerveModule.getCANCoder().getAbsolutePosition()));
     
     // Logging
+    /*** 
     SmartDashboard.putNumber("FL CANCoder Rotation", m_frontLeftSwerveModule.getCANCoder().getAbsolutePosition());
     SmartDashboard.putNumber("FR CANCoder Rotation", m_frontRightSwerveModule.getCANCoder().getAbsolutePosition());
     SmartDashboard.putNumber("BL CANCoder Rotation", m_backLeftSwerveModule.getCANCoder().getAbsolutePosition());
@@ -179,7 +180,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FR DriveEncoder", m_frEncoderPos); 
     SmartDashboard.putNumber("BL DriveEncoder", m_blEncoderPos); 
     SmartDashboard.putNumber("BR DriveEncoder", m_brEncoderPos); 
-
+    
     //Tested NAVX board in proper orentation
     //X axis of excelerometer should be front/back direction of robot 
     //Y axis port starboard 
@@ -188,7 +189,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("NAVX Pitch", getNavx().getPitch());
     SmartDashboard.putNumber("NAVX Yaw", getNavx().getYaw());
     SmartDashboard.putNumber("NAVX Roll", getNavx().getRoll());
-    
+    ***/
   }
 
 

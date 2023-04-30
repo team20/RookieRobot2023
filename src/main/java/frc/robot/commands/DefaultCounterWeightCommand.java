@@ -9,22 +9,16 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CounterWeightSubsystem;
 
-public class DefaultArmCommand extends CommandBase {
-  private final ArmSubsystem m_armSubsystem;
+public class DefaultCounterWeightCommand extends CommandBase {
+  private final CounterWeightSubsystem m_counterWeightSubsystem;
   private Supplier<Double> m_yAxisDrive;
-//   private Supplier<Double> m_xAxisDrive;
-//   private Supplier<Double> m_rotationAxis;
 
-  public DefaultArmCommand(ArmSubsystem armSubsystem, Supplier<Double> yAxisDrive
-  //, Supplier<Double> rotationAxis
-  ) {
-    m_armSubsystem = armSubsystem;
+  public DefaultCounterWeightCommand(CounterWeightSubsystem counterWeightSubsystem, Supplier<Double> yAxisDrive) {
+    m_counterWeightSubsystem = counterWeightSubsystem;
     m_yAxisDrive = yAxisDrive;
-    // m_xAxisDrive = xAxisDrive;
-    // m_rotationAxis = rotationAxis;
-    addRequirements(m_armSubsystem);
+    addRequirements(m_counterWeightSubsystem);
   }
 
   @Override
@@ -41,11 +35,7 @@ public class DefaultArmCommand extends CommandBase {
     // Get the foward, strafe, and rotation speed, using a deadband on the joystick
     // input so slight movements don't move the robot
     double speed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
-    if(speed > 0){
-      speed *= 0.20;
-    }else{
-      speed *= 0.65;
-    }
-    m_armSubsystem.setMotorSpeed(speed);
+
+    m_counterWeightSubsystem.setDriveMotors(speed);
   }
 }

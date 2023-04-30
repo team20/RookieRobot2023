@@ -67,12 +67,13 @@ public class PneumaticsSubsystem extends SubsystemBase {
         }
 
         public void armBrake() {
-            m_brake.set(DoubleSolenoid.Value.kForward);
+            m_brake.set(DoubleSolenoid.Value.kReverse);
         }
 
         public void armInMovement() {
-            m_brake.set(DoubleSolenoid.Value.kOff);
+            m_brake.set(DoubleSolenoid.Value.kForward);
         }
+
     }   
 
     @Override

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.commands.DefaultArmCommand;
-import frc.robot.commands.CounterWeightCommand;
+import frc.robot.commands.DefaultCounterWeightCommand;
 import frc.robot.commands.CalibrationAutoCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ResetToZeroDegreesCommand;
@@ -64,10 +64,11 @@ public class RobotContainer {
             m_armSubsystem,
             () -> m_ojoystick2.getRawAxis(Axis.kRightY)));
 
+            
     m_counterWeightSubsystem.setDefaultCommand(
-        new CounterWeightCommand(
-            m_counterWeightSubsystem,
-            () -> m_djoystick2.getRawAxis(Axis.kRightX)));
+        new DefaultCounterWeightCommand(
+          m_counterWeightSubsystem,
+            () -> m_ojoystick2.getRawAxis(Axis.kLeftX)));
 
     new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
         .onTrue(new ResetToZeroDegreesCommand());

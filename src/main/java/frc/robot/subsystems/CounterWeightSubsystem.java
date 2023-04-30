@@ -9,6 +9,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.WeightConstants;
@@ -18,8 +20,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
   private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
   public RelativeEncoder m_counterWeightMotorEncoder = m_counterWeightMotor.getEncoder();
   private static CounterWeightSubsystem s_subsystem;
-  DigitalInput m_topSwitch = new DigitalInput(WeightConstants.kTopLimitDIO);
-  DigitalInput m_botSwitch = new DigitalInput(WeightConstants.kBotLimitDIO);
+  private static SparkMaxLimitSwitch m_forwardLimit;
+  private static SparkMaxLimitSwitch m_reverseLimit;
   
   /** Creates a new CounterWeightSubsystem. */
   public CounterWeightSubsystem() {
@@ -54,6 +56,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
     motorController.setIdleMode(IdleMode.kBrake);
     motorController.enableVoltageCompensation(12);
     motorController.setSmartCurrentLimit(10);
+    m_forwardLimit = motorController.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_reverseLimit = motorController.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }
 
   /**
@@ -64,8 +68,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
   public void setDriveMotors(double speed) {
     // Ensure speed is within valid range
     speed = Math.min(1, Math.max(speed, -1));
-    boolean isHit = (speed > 0) ? m_topSwitch.get() : m_botSwitch.get();
-    m_counterWeightMotor.set(isHit ? 0 : speed);
+    //boolean isHit = (speed > 0) ? m_forwardLimit.isPressed() : m_reverseLimit.isPressed();
+    m_counterWeightMotor.set(speed);
   }
 
  @Override

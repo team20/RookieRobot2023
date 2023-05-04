@@ -160,36 +160,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_backLeftSwerveModule.getSteerMotor().set(m_backLeftSwerveModule.getPIDController().calculate(m_backLeftSwerveModule.getCANCoder().getAbsolutePosition()));
     m_backRightSwerveModule.getSteerMotor().set(m_backRightSwerveModule.getPIDController().calculate(m_backRightSwerveModule.getCANCoder().getAbsolutePosition()));
     
-    // Logging
-    /*** 
-    SmartDashboard.putNumber("FL CANCoder Rotation", m_frontLeftSwerveModule.getCANCoder().getAbsolutePosition());
-    SmartDashboard.putNumber("FR CANCoder Rotation", m_frontRightSwerveModule.getCANCoder().getAbsolutePosition());
-    SmartDashboard.putNumber("BL CANCoder Rotation", m_backLeftSwerveModule.getCANCoder().getAbsolutePosition());
-    SmartDashboard.putNumber("BR CANCoder Rotation", m_backRightSwerveModule.getCANCoder().getAbsolutePosition());
-    SmartDashboard.putNumber("FL PID Setpoint", m_frontLeftSwerveModule.getPIDController().getSetpoint());
-    SmartDashboard.putNumber("FR PID Setpoint", m_frontRightSwerveModule.getPIDController().getSetpoint());
-    SmartDashboard.putNumber("BL PID Setpoint", m_backLeftSwerveModule.getPIDController().getSetpoint());
-    SmartDashboard.putNumber("BR PID Setpoint", m_backRightSwerveModule.getPIDController().getSetpoint());
-    
-    double m_flEncoderPos = m_frontLeftSwerveModule.getDriveEncoderPosition();
-    double m_frEncoderPos = m_frontRightSwerveModule.getDriveEncoderPosition();
-    double m_blEncoderPos = m_backLeftSwerveModule.getDriveEncoderPosition();
-    double m_brEncoderPos = m_backRightSwerveModule.getDriveEncoderPosition();
-    
-    SmartDashboard.putNumber("FL DriveEncoder", m_flEncoderPos);
-    SmartDashboard.putNumber("FR DriveEncoder", m_frEncoderPos); 
-    SmartDashboard.putNumber("BL DriveEncoder", m_blEncoderPos); 
-    SmartDashboard.putNumber("BR DriveEncoder", m_brEncoderPos); 
-    
-    //Tested NAVX board in proper orentation
-    //X axis of excelerometer should be front/back direction of robot 
-    //Y axis port starboard 
-    //Z axis is up 
-    // Pitch, yaw, and roll on the NAVX are now correct for this orentation 
-    SmartDashboard.putNumber("NAVX Pitch", getNavx().getPitch());
-    SmartDashboard.putNumber("NAVX Yaw", getNavx().getYaw());
-    SmartDashboard.putNumber("NAVX Roll", getNavx().getRoll());
-    ***/
+  
   }
 
 

@@ -7,11 +7,11 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.SPI;
+//import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.subsystems.CounterWeightSubsystem;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants.WeightConstants;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -20,7 +20,6 @@ public class CounterWeightCommand extends CommandBase {
   private final CounterWeightSubsystem m_counterWeightSubsystem;
   private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
   private Supplier<Double> m_xAxisDrive;
-  private AHRS navx;
   private final double Kp = 0.03;
 
   public CounterWeightCommand(CounterWeightSubsystem counterWeightSubsystem, Supplier<Double> xAxisDrive) {
@@ -31,7 +30,6 @@ public class CounterWeightCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    AHRS navx = new AHRS(SPI.Port.kMXP);
   }
 
   /**
@@ -46,13 +44,12 @@ public class CounterWeightCommand extends CommandBase {
     double speed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
     // double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
 
-    double pitch = navx.getPitch();
+    double pitch = 0; //navx.getPitch();
     double target = 0; // TODO reset pitch
     double error = pitch - target;
 
 
-    //TODO check this bc it's definitely wrong ESPECIALLY the speed!!!!!!!!!!!!!!!!!!!!!!! :c
-    // dean sucks
+    //TODO check this bc it's definitely wrong ESPECIALLY the speed!!!!!!!!!!!!!!!!!!!!!!!
     if (error > 2) {
       m_counterWeightMotor.set(speed);
     } else if (error < -2) {

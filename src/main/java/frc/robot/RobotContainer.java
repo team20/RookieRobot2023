@@ -14,7 +14,8 @@ import frc.robot.commands.CalibrationAutoCommand;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ResetToZeroDegreesCommand;
+// import frc.robot.commands.ResetToZeroDegreesCommand;
+// import frc.robot.subsystems.CounterWeightSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -28,6 +29,7 @@ public class RobotContainer {
   private final Joystick m_joystick = new Joystick(ControllerConstants.kDriverControllerPort);
   private final GenericHID m_controller = new GenericHID(ControllerConstants.kDriverControllerPort);
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  // private final CounterWeightSubsystem m_counterWeightSubsystem = new CounterWeightSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -50,8 +52,14 @@ public class RobotContainer {
             () -> m_joystick.getRawAxis(Axis.kLeftX),
             () -> m_joystick.getRawAxis(Axis.kLeftY),
             () -> m_joystick.getRawAxis(Axis.kRightX)));
-    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
-        .onTrue(new ResetToZeroDegreesCommand());
+    // new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
+    //     .onTrue(new ResetToZeroDegreesCommand());
+
+    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Axis.kLeftTrigger))
+        .onTrue(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, -90));
+        
+    new Trigger(() -> m_controller.getRawButton(ControllerConstants.Axis.kRightTrigger))
+        .onTrue(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 90));
   }
 
   public Command getAutonomousCommand() {
@@ -59,3 +67,8 @@ public class RobotContainer {
                                       new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
   }
 }
+
+
+
+
+

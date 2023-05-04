@@ -20,7 +20,7 @@ public final class Constants {
 	public static final class ControllerConstants {
 		public static final int kDriverControllerPort = 0;
 		public static final int kOperatorControllerPort = 1;
-		public static final double kDeadzone = 0.1;
+		public static final double kDeadzone = 0.2;
 		public static final double kTriggerDeadzone = .05;
 
 		public static final class Axis {
@@ -70,6 +70,7 @@ public final class Constants {
 		public static final int kFrontLeftCANCoderPort = 13;
 		public static final int kBackRightCANCoderPort = 15;
 		public static final int kBackLeftCANCoderPort = 16;
+		public static final double kDriveScale = 0.5;
 		// Drive PID values
 		public static final double kP = 0.005;
 		public static final double kI = 0;
@@ -85,9 +86,9 @@ public final class Constants {
 		public static final double kAllowedError = 0;
 		public static final double kMinVelocity = 0;
 		/*** Distance between center of front wheel and center of back wheel */
-		public static final double kWheelBase = 22.5;
+		public static final double kWheelBase = 21.5;
 		/*** Distance between center of left wheel and center of right wheel */
-		public static final double kTrackWidth = 17.5;
+		public static final double kTrackWidth = 21.5;
 		public static final double kSteerPeriod = 0.02;
 		public static final boolean kFrontLeftDriveInverted = true;
 		public static final boolean kBackLeftDriveInverted = true;
@@ -100,7 +101,25 @@ public final class Constants {
 
 	public static final class SwerveConstants {
 		public static final double gearRatio = 8.14;
-		public static final double wheelDiameter = 4; // in inches
-		public static final double ticksPerAxisRev = 42;
+		public static final double wheelDiameter = 0.1016;  // in meters
+		// public static final double ticksPerAxisRev = 42;
+
+        public static final double kTicksToMeters = (1/gearRatio) * Math.PI * wheelDiameter;
+		public static final double kMotorRevsPerMeter = gearRatio/(Math.PI * wheelDiameter);
+
+
+		// These set points resulted in back being front, front is back
+		public static final double FrontLeftZero = 124.89;
+		public static final double FrontRightZero = 115.66;
+		public static final double BackLeftZero = 277.47;
+		public static final double BackRightZero = 212.73;
+
+		// These encoder set points should be correct
+		// public static final double FrontLeftZero = -56.89;
+		// public static final double FrontRightZero = -65.66;
+		// public static final double BackLeftZero = 97.47;
+		// public static final double BackRightZero = 32.73;
+
+
 	}
 }

@@ -4,50 +4,24 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.controller.PIDController;
-import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.SwerveModule;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.SwerveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
-  private PIDController m_frontLeftPIDController = new PIDController(DriveConstants.kP, DriveConstants.kI,
-      DriveConstants.kD, DriveConstants.kSteerPeriod);
-  private PIDController m_frontRightPIDController = new PIDController(DriveConstants.kP, DriveConstants.kI,
-      DriveConstants.kD, DriveConstants.kSteerPeriod);
-  private PIDController m_backLeftPIDController = new PIDController(DriveConstants.kP, DriveConstants.kI,
-      DriveConstants.kD, DriveConstants.kSteerPeriod);
-  private PIDController m_backRightPIDController = new PIDController(DriveConstants.kP, DriveConstants.kI,
-      DriveConstants.kD, DriveConstants.kSteerPeriod);
-  private CANCoder m_frontLeftCANCoder = new CANCoder(DriveConstants.kFrontLeftCANCoderPort);
-  private CANCoder m_frontRightCANCoder = new CANCoder(DriveConstants.kFrontRightCANCoderPort);
-  private CANCoder m_backLeftCANCoder = new CANCoder(DriveConstants.kBackLeftCANCoderPort);
-  private CANCoder m_backRightCANCoder = new CANCoder(DriveConstants.kBackRightCANCoderPort);
-
-  private CANSparkMax m_frontLeftDriveMotor = new CANSparkMax(DriveConstants.kFrontLeftDrivePort, MotorType.kBrushless);
-  public RelativeEncoder m_frontLeftDriveEncoder = m_frontLeftDriveMotor.getEncoder();
-  private CANSparkMax m_frontLeftSteerMotor = new CANSparkMax(DriveConstants.kFrontLeftSteerPort, MotorType.kBrushless);
-  private CANSparkMax m_frontRightDriveMotor = new CANSparkMax(DriveConstants.kFrontRightDrivePort,
-      MotorType.kBrushless);
-  public RelativeEncoder m_frontRightDriveEncoder = m_frontRightDriveMotor.getEncoder();
-  private CANSparkMax m_frontRightSteerMotor = new CANSparkMax(DriveConstants.kFrontRightSteerPort,
-      MotorType.kBrushless);
-  private CANSparkMax m_backLeftDriveMotor = new CANSparkMax(DriveConstants.kBackLeftDrivePort, MotorType.kBrushless);
-  public RelativeEncoder m_backLeftDriveEncoder = m_backLeftDriveMotor.getEncoder();
-  private CANSparkMax m_backLeftSteerMotor = new CANSparkMax(DriveConstants.kBackLeftSteerPort, MotorType.kBrushless);
-  private CANSparkMax m_backRightDriveMotor = new CANSparkMax(DriveConstants.kBackRightDrivePort, MotorType.kBrushless);
-  public RelativeEncoder m_backRightDriveEncoder = m_backRightDriveMotor.getEncoder();
-  private CANSparkMax m_backRightSteerMotor = new CANSparkMax(DriveConstants.kBackRightSteerPort, MotorType.kBrushless);
+  private SwerveModule m_frontLeftSwerveModule;
+  private SwerveModule m_frontRightSwerveModule;
+  private SwerveModule m_backLeftSwerveModule;
+  private SwerveModule m_backRightSwerveModule;
   private static DriveSubsystem s_subsystem;
-
-  public CANCoder getFrontLeftCANCoder(){
-    return this.m_frontLeftCANCoder;
-  }
+  private AHRS m_gyro = new AHRS(SPI.Port.kMXP); 
+  private MedianFilter filter = new MedianFilter(5);
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -61,53 +35,69 @@ public class DriveSubsystem extends SubsystemBase {
     }
     s_subsystem = this;
 
-    // Initialize motors, PID controllers
+    // Initialize modules
     {
-      configMotorController(m_frontLeftDriveMotor);
-      m_frontLeftDriveMotor.setInverted(DriveConstants.kFrontLeftDriveInverted);
-      configMotorController(m_frontLeftSteerMotor);
+      m_frontLeftSwerveModule = new SwerveModule(
+        DriveConstants.kFrontLeftCANCoderPort, 
+        DriveConstants.kFrontLeftDrivePort, 
+        DriveConstants.kFrontLeftSteerPort, 
+        SwerveConstants.FrontLeftZero, 
+        DriveConstants.kFrontLeftDriveInverted
+        );
 
-      m_frontLeftPIDController.enableContinuousInput(0, 360);
+      m_frontRightSwerveModule = new SwerveModule(
+        DriveConstants.kFrontRightCANCoderPort, 
+        DriveConstants.kFrontRightDrivePort, 
+        DriveConstants.kFrontRightSteerPort, 
+        SwerveConstants.FrontRightZero, 
+        DriveConstants.kFrontRightDriveInverted);
 
-      configMotorController(m_frontRightDriveMotor);
-      m_frontRightDriveMotor.setInverted(DriveConstants.kFrontRightDriveInverted);
-      configMotorController(m_frontRightSteerMotor);
+      m_backLeftSwerveModule = new SwerveModule(
+        DriveConstants.kBackLeftCANCoderPort, 
+        DriveConstants.kBackLeftDrivePort, 
+        DriveConstants.kBackLeftSteerPort, 
+        SwerveConstants.BackLeftZero, 
+        DriveConstants.kBackLeftDriveInverted);
 
-      m_frontRightPIDController.enableContinuousInput(0, 360);
-
-      configMotorController(m_backLeftDriveMotor);
-      m_backLeftDriveMotor.setInverted(DriveConstants.kBackLeftDriveInverted);
-      configMotorController(m_backLeftSteerMotor);
-
-      m_backLeftPIDController.enableContinuousInput(0, 360);
-
-      configMotorController(m_backRightDriveMotor);
-      m_backRightDriveMotor.setInverted(DriveConstants.kBackRightDriveInverted);
-      configMotorController(m_backRightSteerMotor);
-
-      m_backRightPIDController.enableContinuousInput(0, 360);
+      m_backRightSwerveModule = new SwerveModule(
+        DriveConstants.kBackRightCANCoderPort, 
+        DriveConstants.kBackRightDrivePort, 
+        DriveConstants.kBackRightSteerPort, 
+        SwerveConstants.BackRightZero, 
+        DriveConstants.kBackRightDriveInverted);
     }
+    m_gyro.calibrate();
+    new Thread(() -> {
+        try{
+          Thread.sleep(1000);
+          m_gyro.reset();
+        }catch(Exception e){}
+    });
+    resetEncoders();
+  }
+  double oldVal;
+  public double getHeading(){
+    return filter.calculate(m_gyro.getPitch());
+  }
+
+  public AHRS getNavx(){
+    return m_gyro;
+  }
+
+  public void resetHeading(){
+    m_gyro.reset();
   }
 
   public static DriveSubsystem get() {
     return s_subsystem;
   }
 
-  /***
-   * Configures our motors with the exact same settings
-   * 
-   * @param motorController
-   *                        The CANSparkMax to configure
-   */
-  public static void configMotorController(CANSparkMax motorController) {
-    motorController.restoreFactoryDefaults();
-    motorController.setIdleMode(IdleMode.kBrake);
-    motorController.enableVoltageCompensation(12);
-    motorController.setSmartCurrentLimit(10);
-  }
-
-  public double getHeading() {
-    return 0;
+  public void resetEncoders() {
+    // Zero drive encoders
+    m_frontLeftSwerveModule.getDriveEncoder().setPosition(0);
+    m_frontRightSwerveModule.getDriveEncoder().setPosition(0);
+    m_backLeftSwerveModule.getDriveEncoder().setPosition(0);
+    m_backRightSwerveModule.getDriveEncoder().setPosition(0);
   }
 
   public void setWheelRotationToZeroDegrees() {
@@ -128,10 +118,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setDriveMotors(double frontLeftSpeed, double frontRightSpeed, double backLeftSpeed,
       double backRightSpeed) {
-    m_frontLeftDriveMotor.set(frontLeftSpeed);
-    m_frontRightDriveMotor.set(frontRightSpeed);
-    m_backLeftDriveMotor.set(backLeftSpeed);
-    m_backRightDriveMotor.set(backRightSpeed);
+    m_frontLeftSwerveModule.getDriveMotor().set(frontLeftSpeed * DriveConstants.kDriveScale);
+    m_frontRightSwerveModule.getDriveMotor().set(frontRightSpeed * DriveConstants.kDriveScale);
+    m_backLeftSwerveModule.getDriveMotor().set(backLeftSpeed * DriveConstants.kDriveScale);
+    m_backRightSwerveModule.getDriveMotor().set(backRightSpeed * DriveConstants.kDriveScale);
   }
 
   /***
@@ -148,10 +138,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setSteerMotors(double frontLeftAngle, double frontRightAngle, double backLeftAngle,
       double backRightAngle) {
-    m_frontLeftPIDController.setSetpoint(frontLeftAngle);
-    m_frontRightPIDController.setSetpoint(frontRightAngle);
-    m_backLeftPIDController.setSetpoint(backLeftAngle);
-    m_backRightPIDController.setSetpoint(backRightAngle);
+    m_frontLeftSwerveModule.getPIDController().setSetpoint(frontLeftAngle);
+    m_frontRightSwerveModule.getPIDController().setSetpoint(frontRightAngle);
+    m_backLeftSwerveModule.getPIDController().setSetpoint(backLeftAngle);
+    m_backRightSwerveModule.getPIDController().setSetpoint(backRightAngle);
   }
 
   /***
@@ -160,21 +150,33 @@ public class DriveSubsystem extends SubsystemBase {
    */
   @Override
   public void periodic() {
+    // System.out.println("running"); 
     // For each of our steer motors, feed the current angle of the wheel into its
     // PID controller, and use it to calculate the duty cycle for its motor, and
     // spin the motor
-    m_frontLeftSteerMotor.set(m_frontLeftPIDController.calculate(m_frontLeftCANCoder.getAbsolutePosition()));
-    m_frontRightSteerMotor.set(m_frontRightPIDController.calculate(m_frontRightCANCoder.getAbsolutePosition()));
-    m_backLeftSteerMotor.set(m_backLeftPIDController.calculate(m_backLeftCANCoder.getAbsolutePosition()));
-    m_backRightSteerMotor.set(m_backRightPIDController.calculate(m_backRightCANCoder.getAbsolutePosition()));
-    // Logging
-    SmartDashboard.putNumber("FL CANCoder Rotation", m_frontLeftCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("FR CANCoder Rotation", m_frontRightCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("BL CANCoder Rotation", m_backLeftCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("BR CANCoder Rotation", m_backRightCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("FL PID Setpoint", m_frontLeftPIDController.getSetpoint());
-    SmartDashboard.putNumber("FR PID Setpoint", m_frontRightPIDController.getSetpoint());
-    SmartDashboard.putNumber("BL PID Setpoint", m_backLeftPIDController.getSetpoint());
-    SmartDashboard.putNumber("BR PID Setpoint", m_backRightPIDController.getSetpoint());
+
+    m_frontLeftSwerveModule.getSteerMotor().set(m_frontLeftSwerveModule.getPIDController().calculate(m_frontLeftSwerveModule.getCANCoder().getAbsolutePosition()));
+    m_frontRightSwerveModule.getSteerMotor().set(m_frontRightSwerveModule.getPIDController().calculate(m_frontRightSwerveModule.getCANCoder().getAbsolutePosition()));
+    m_backLeftSwerveModule.getSteerMotor().set(m_backLeftSwerveModule.getPIDController().calculate(m_backLeftSwerveModule.getCANCoder().getAbsolutePosition()));
+    m_backRightSwerveModule.getSteerMotor().set(m_backRightSwerveModule.getPIDController().calculate(m_backRightSwerveModule.getCANCoder().getAbsolutePosition()));
+    
+  
+  }
+
+
+  public SwerveModule getFrontLeftSwerveModule() {
+    return this.m_frontLeftSwerveModule;
+  }
+
+  public SwerveModule getFrontRightSwerveModule() {
+    return this.m_frontRightSwerveModule;
+  }
+
+  public SwerveModule getBackLeftSwerveModule() {
+    return this.m_backLeftSwerveModule;
+  }
+
+  public SwerveModule getBackRightSwerveModule() {
+    return this.m_backRightSwerveModule;
   }
 }

@@ -39,9 +39,10 @@ import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
  */
 public class RobotContainer {
   private final Joystick m_djoystick1 = new Joystick(ControllerConstants.kDriverControllerPort);
-  private final Joystick m_djoystick2 = new Joystick(ControllerConstants.kDriverControllerPort);
+  // private final Joystick m_djoystick2 = new Joystick(ControllerConstants.kDriverControllerPort);
   private final Joystick m_ojoystick2 = new Joystick(ControllerConstants.kOperatorControllerPort);
-  private final GenericHID m_controller = new GenericHID(ControllerConstants.kDriverControllerPort);
+  private final GenericHID m_dcontroller = new GenericHID(ControllerConstants.kDriverControllerPort);
+  private final GenericHID m_ocontroller = new GenericHID(ControllerConstants.kOperatorControllerPort);
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final CounterWeightSubsystem m_counterWeightSubsystem = new CounterWeightSubsystem();
@@ -83,26 +84,26 @@ public class RobotContainer {
 
 
     // Register button(s) to raise (pivot) the claw
-    new POVButton(m_controller, DPad.kUp).or(new POVButton(m_controller, DPad.kUpLeft))
-      .or(new POVButton(m_controller, DPad.kUpRight))
+    new POVButton(m_ocontroller, DPad.kUp).or(new POVButton(m_ocontroller, DPad.kUpLeft))
+      .or(new POVButton(m_ocontroller, DPad.kUpRight))
       .onTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.RAISE));
 
     // Register button(s) to lower (pivot) the claw
-    new POVButton(m_controller, DPad.kDown).or(new POVButton(m_controller, DPad.kDownLeft))
-      .or(new POVButton(m_controller, DPad.kDownRight))
+    new POVButton(m_ocontroller, DPad.kDown).or(new POVButton(m_ocontroller, DPad.kDownLeft))
+      .or(new POVButton(m_ocontroller, DPad.kDownRight))
       .onTrue(new PivotPneumaticCommand(m_pivot, PivotPneumaticCommand.Operation.LOWER));
 
     // Register button to open the claw
-    new JoystickButton(m_controller, Button.kLeftBumper)
+    new JoystickButton(m_ocontroller, Button.kLeftBumper)
       .onTrue(new ClawPneumaticCommand(m_claw, ClawPneumaticCommand.Operation.OPEN));
 
     // Register button to close the claw
-    new JoystickButton(m_controller, Button.kRightBumper)
+    new JoystickButton(m_ocontroller, Button.kRightBumper)
       .onTrue(new ClawPneumaticCommand(m_claw, ClawPneumaticCommand.Operation.CLOSE));
 
-  new Trigger(() -> m_controller.getRawButton(ControllerConstants.Button.kTriangle))
-      .onTrue(new ResetToZeroDegreesCommand());
-  }
+    new Trigger(() -> m_dcontroller.getRawButton(ControllerConstants.Button.kTriangle))
+        .onTrue(new ResetToZeroDegreesCommand());
+    }
 
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),

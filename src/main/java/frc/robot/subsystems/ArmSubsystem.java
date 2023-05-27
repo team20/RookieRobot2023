@@ -45,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_motor.restoreFactoryDefaults();
     m_motor.setIdleMode(IdleMode.kBrake);
     m_motor.enableVoltageCompensation(12);
-    m_motor.setSmartCurrentLimit(10);
+    m_motor.setSmartCurrentLimit(25);                 //arm power limit (out of 60)
     m_forwardLimit = m_motor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     m_reverseLimit = m_motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }

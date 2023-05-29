@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import java.lang.Math;
@@ -71,11 +72,12 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     double speed = m_motor.get();
 
-    if(!(Math.abs(speed) > 0) || m_forwardLimit.isPressed() || m_reverseLimit.isPressed())
+    if(!(Math.abs(speed) > 0) || m_forwardLimit.isPressed() || m_reverseLimit.isPressed()) {
+      new WaitCommand(0.5);
       m_brake.armBrake();  
-    else
+    } else {
       m_brake.armInMovement();
-      
+    }
   
   }
    

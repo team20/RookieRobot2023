@@ -7,6 +7,11 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ControllerConstants;
@@ -26,7 +31,9 @@ public class DefaultDriveCommand extends CommandBase {
   private Supplier<Double> m_xAxisDrive;
   private Supplier<Double> m_rotationAxis;
   private double m_trackWidth;
-  private double m_wheelBase;
+  private double m_wheelBase;  
+  private SwerveDriveKinematics m_kinematics;
+
 
   public DefaultDriveCommand(DriveSubsystem driveSubsystem, Supplier<Double> xAxisDrive, Supplier<Double> yAxisDrive,
       Supplier<Double> rotationAxis) {
@@ -41,6 +48,16 @@ public class DefaultDriveCommand extends CommandBase {
   public void initialize() {
     m_trackWidth = DriveConstants.kTrackWidth;
     m_wheelBase = DriveConstants.kWheelBase;
+        // Locations for the swerve drive modules relative to the robot center.
+    Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
+    Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
+    Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
+    Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
+
+    // Creating my kinematics object using the module locations
+    m_kinematics = new SwerveDriveKinematics(
+      m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation
+    );
   }
 
   /**
@@ -50,11 +67,22 @@ public class DefaultDriveCommand extends CommandBase {
    */
   @Override
   public void execute() {
+    // UPDATED to use wpilib swerve calculations
     // Get the foward, strafe, and rotation speed, using a deadband on the joystick
     // input so slight movements don't move the robot
     double fwdSpeed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
     double strSpeed = MathUtil.applyDeadband(m_xAxisDrive.get(), ControllerConstants.kDeadzone);
     double rotSpeed = MathUtil.applyDeadband(m_rotationAxis.get(), ControllerConstants.kDeadzone);
+
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+      fwdSpeed, strSpeed, rotSpeed, Rotation2d.fromDegrees(DriveSubsystem.get().getHeading()));
+
+    // Now use this in our kinematics
+    SwerveModuleState[] moduleStates = m_kinematics.toSwerveModuleStates(speeds);
+
+    DriveSubsystem.get().setSwerveStates(moduleStates);
+
+    /*
 
     double leftStickMagnitude = Math.sqrt( fwdSpeed * fwdSpeed + strSpeed * strSpeed);
     double leftStickAngle = Math.atan2(strSpeed, fwdSpeed);
@@ -137,5 +165,6 @@ public class DefaultDriveCommand extends CommandBase {
       m_driveSubsystem.setSteerMotors(frontLeftAngle, frontRightAngle, backLeftAngle, backRightAngle);
     }
     m_driveSubsystem.setDriveMotors(frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed);
-  }
+    */
+   }
 }

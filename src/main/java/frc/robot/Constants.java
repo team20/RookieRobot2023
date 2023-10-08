@@ -82,7 +82,7 @@ public final class Constants {
 		public static final AccelStrategy kTrapezoidal = AccelStrategy.kTrapezoidal;
 		public static final int kSlotID = 0;
 		public static final double kMaxAcel = 0;
-		public static final double kMaxVelocity = 0;
+		public static final double kMaxVelocity = 2;
 		public static final double kAllowedError = 0;
 		public static final double kMinVelocity = 0;
 		/*** Distance between center of front wheel and center of back wheel */

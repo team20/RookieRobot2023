@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -112,13 +115,25 @@ public final class Constants {
 		public static final AccelStrategy kTrapezoidal = AccelStrategy.kTrapezoidal;
 		public static final int kSlotID = 0;
 		public static final double kMaxAcel = 0;
-		public static final double kMaxVelocity = 0;
+		public static final double kMaxVelocity = 2;
 		public static final double kAllowedError = 0;
 		public static final double kMinVelocity = 0;
 		/*** Distance between center of front wheel and center of back wheel */
 		public static final double kWheelBase = 21.5;
 		/*** Distance between center of left wheel and center of right wheel */
 		public static final double kTrackWidth = 21.5;
+
+		// Locations for the swerve drive modules relative to the robot center.
+		public static final Translation2d m_frontLeftLocation = new Translation2d(kTrackWidth / 2.0, kWheelBase / 2.0);
+		public static final Translation2d m_frontRightLocation = new Translation2d(kTrackWidth / 2.0, -kWheelBase / 2.0);
+		public static final Translation2d m_backLeftLocation = new Translation2d(-kTrackWidth / 2.0, kWheelBase / 2.0);
+		public static final Translation2d m_backRightLocation = new Translation2d(-kTrackWidth / 2.0, -kWheelBase / 2.0);
+
+		// Creating my kinematics object using the module locations
+		public static final SwerveDriveKinematics kKinematics  = new SwerveDriveKinematics(
+			m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation
+		);
+		
 		public static final double kSteerPeriod = 0.02;
 		public static final boolean kFrontLeftDriveInverted = true;
 		public static final boolean kBackLeftDriveInverted = true;

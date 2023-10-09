@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.CalibrationAutoCommand;
+import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.ClawPneumaticCommand;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
@@ -39,7 +39,6 @@ import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
  */
 public class RobotContainer {
   private final Joystick m_djoystick1 = new Joystick(ControllerConstants.kDriverControllerPort);
-  // private final Joystick m_djoystick2 = new Joystick(ControllerConstants.kDriverControllerPort);
   private final Joystick m_ojoystick2 = new Joystick(ControllerConstants.kOperatorControllerPort);
   private final GenericHID m_dcontroller = new GenericHID(ControllerConstants.kDriverControllerPort);
   private final GenericHID m_ocontroller = new GenericHID(ControllerConstants.kOperatorControllerPort);
@@ -66,7 +65,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_driveSubsystem.setDefaultCommand(
       new DefaultDriveCommand(
-          m_driveSubsystem,
           () -> m_djoystick1.getRawAxis(Axis.kLeftX),
           () -> m_djoystick1.getRawAxis(Axis.kLeftY),
           () -> m_djoystick1.getRawAxis(Axis.kRightX)));
@@ -106,7 +104,6 @@ public class RobotContainer {
     }
 
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup(new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_ANGLE, 0),
-                                      new CalibrationAutoCommand(CalibrationAutoCommand.Operation.CMD_DISTANCE, 8));
+    return new SequentialCommandGroup(new AutoDriveCommand(0.0, -0.25, 5, 0.08));
   }
 }

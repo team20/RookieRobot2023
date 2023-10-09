@@ -6,12 +6,14 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.filter.MedianFilter;
+//import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SwerveConstants;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public class DriveSubsystem extends SubsystemBase {
   private SwerveModule m_frontLeftSwerveModule;
@@ -20,7 +22,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveModule m_backRightSwerveModule;
   private static DriveSubsystem s_subsystem;
   private AHRS m_gyro = new AHRS(SPI.Port.kMXP); 
-  private MedianFilter filter = new MedianFilter(5);
+  //private MedianFilter filter = new MedianFilter(5);
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -76,7 +78,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
   double oldVal;
   public double getHeading(){
-    return filter.calculate(m_gyro.getPitch());
+    return -m_gyro.getYaw();
+    //return filter.calculate(m_gyro.getPitch());
   }
 
   public AHRS getNavx(){
@@ -141,6 +144,27 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRightSwerveModule.getPIDController().setSetpoint(frontRightAngle);
     m_backLeftSwerveModule.getPIDController().setSetpoint(backLeftAngle);
     m_backRightSwerveModule.getPIDController().setSetpoint(backRightAngle);
+  }
+
+  public void setSwerveStates(SwerveModuleState[] moduleStates){
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, DriveConstants.kMaxVelocity);
+    // Front left module state
+    SwerveModuleState frontLeft = moduleStates[0];
+
+    // Front right module state
+    SwerveModuleState frontRight = moduleStates[1];
+
+    // Back left module state
+    SwerveModuleState backLeft = moduleStates[2];
+
+    // Back right module state
+    SwerveModuleState backRight = moduleStates[3];
+
+    m_frontLeftSwerveModule.setModuleState(frontLeft);
+    m_frontRightSwerveModule.setModuleState(frontRight);
+    m_backLeftSwerveModule.setModuleState(backLeft);
+    m_backRightSwerveModule.setModuleState(backRight);
   }
 
   /***

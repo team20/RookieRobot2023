@@ -20,8 +20,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
   private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
   public RelativeEncoder m_counterWeightMotorEncoder = m_counterWeightMotor.getEncoder();
   private static CounterWeightSubsystem s_subsystem;
-  private static SparkMaxLimitSwitch m_forwardLimit;
-  private static SparkMaxLimitSwitch m_reverseLimit;
+  //private static SparkMaxLimitSwitch m_forwardLimit;
+  //private static SparkMaxLimitSwitch m_reverseLimit;
   
   /** Creates a new CounterWeightSubsystem. */
   public CounterWeightSubsystem() {
@@ -56,8 +56,8 @@ public class CounterWeightSubsystem extends SubsystemBase {
     motorController.setIdleMode(IdleMode.kBrake);
     motorController.enableVoltageCompensation(12);
     motorController.setSmartCurrentLimit(10);
-    m_forwardLimit = motorController.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-    m_reverseLimit = motorController.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+   // m_forwardLimit = motorController.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    //m_reverseLimit = motorController.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }
 
   /**

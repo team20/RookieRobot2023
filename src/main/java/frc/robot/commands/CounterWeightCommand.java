@@ -20,7 +20,6 @@ public class CounterWeightCommand extends CommandBase {
   private final CounterWeightSubsystem m_counterWeightSubsystem;
   private CANSparkMax m_counterWeightMotor = new CANSparkMax(WeightConstants.kCANID, MotorType.kBrushless);
   private Supplier<Double> m_xAxisDrive;
-  private final double Kp = 0.03;
 
   public CounterWeightCommand(CounterWeightSubsystem counterWeightSubsystem, Supplier<Double> xAxisDrive) {
     m_counterWeightSubsystem = counterWeightSubsystem;

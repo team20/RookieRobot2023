@@ -9,12 +9,19 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SwerveConstants;
 
-/** Add your docs here. */
+/**
+ * This class represents a single swerve
+ * module on a robot, as well as providing
+ * a few useful methods for driving and
+ * checking encoder values.
+ */
 public class SwerveModule {
     private PIDController m_PIDController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD, DriveConstants.kSteerPeriod);
     private CANCoder m_CANCoder;
@@ -22,6 +29,15 @@ public class SwerveModule {
     public RelativeEncoder m_driveEncoder;
     private CANSparkMax m_steerMotor;
 
+
+    /**
+     * Creates a new instance of the SwerveModule class
+     * @param CANport the port of the absolute steering encoder
+     * @param drivePort the port of the drive motor
+     * @param steerPort the port of the steering motor
+     * @param magnetOfset the steering encoder ofset
+     * @param inverted is this drive motor inverted?
+     */
     public SwerveModule(int CANport, int drivePort, int steerPort, double magnetOfset, boolean inverted){
         m_CANCoder = new CANCoder(CANport);
         m_driveMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
@@ -36,18 +52,29 @@ public class SwerveModule {
     }
     /***
      * Configures our motors with the exact same settings
-     * 
-     * @param motorController);
-
-    }
-
-     *                        The CANSparkMax to configure
+     * @param motorController The CANSparkMax to configure
      */
     public static void configMotorController(CANSparkMax motorController) {
         motorController.restoreFactoryDefaults();
         motorController.setIdleMode(IdleMode.kBrake);
         motorController.enableVoltageCompensation(12);
         motorController.setSmartCurrentLimit(30);
+    }
+
+    /**
+     * Sets this modules steering rotation and drive
+     * speed to those specified in a {@code SwerveModuleState}
+     * @param state The state to attempt to set
+     */
+    public void setModuleState(SwerveModuleState state){
+        // Will allow the module to spin to 180 deg + target angle
+        // but swap drive speed if that is quicker than normal
+        state = SwerveModuleState.optimize(state, state.angle);
+        // Set drive speed
+        m_driveMotor.set(state.speedMetersPerSecond * DriveConstants.kDriveScale);
+        m_PIDController.setSetpoint(state.angle.getDegrees());
+        //Print state to dashboard
+        SmartDashboard.putString("Swerve module " + m_CANCoder.getDeviceID(), state.toString());
     }
 
 

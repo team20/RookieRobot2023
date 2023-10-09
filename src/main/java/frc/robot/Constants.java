@@ -86,6 +86,12 @@ public final class Constants {
 		public static final int kCANDICE = 10;  // sparkMax CAN ID
 		public static final int kArmTopLimitDIO = 2;
 		public static final int kArmBotLimitDIO = 3;
+
+		// Arm PID values
+		public static final double kP = 0.5;
+		public static final double kI = 0;
+		public static final double kD = 0;
+		public static final double kUpdatePeriod = 0.02;
 	}
 
 	public static final class DriveConstants {

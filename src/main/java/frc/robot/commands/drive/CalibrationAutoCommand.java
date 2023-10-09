@@ -1,9 +1,16 @@
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
+/**
+ * Command that drives the robot for a 
+ * certain distance, or rotates a certain amount
+ * -- GOING TO BE REMOVED --
+ * @see {@code AutoDriveCommand}
+ */
+@Deprecated(forRemoval = true)
 public class CalibrationAutoCommand extends CommandBase {
     private final DriveSubsystem m_driveSubsystem;
 

@@ -12,18 +12,17 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AutoDriveCommand;
-import frc.robot.commands.ClawPneumaticCommand;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.Constants.ControllerConstants.Button;
 import frc.robot.Constants.ControllerConstants.DPad;
-import frc.robot.commands.DefaultArmCommand;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.PivotPneumaticCommand;
-import frc.robot.commands.DefaultCounterWeightCommand;
-import frc.robot.commands.ResetToZeroDegreesCommand;
-
+import frc.robot.commands.arm.DefaultArmCommand;
+import frc.robot.commands.counterweight.DefaultCounterWeightCommand;
+import frc.robot.commands.drive.AutoDriveCommand;
+import frc.robot.commands.drive.DefaultDriveCommand;
+import frc.robot.commands.drive.TurnWheelsToZeroDegreesCommand;
+import frc.robot.commands.pneumatic.ClawPneumaticCommand;
+import frc.robot.commands.pneumatic.PivotPneumaticCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CounterWeightSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -100,7 +99,7 @@ public class RobotContainer {
       .onTrue(new ClawPneumaticCommand(m_claw, ClawPneumaticCommand.Operation.CLOSE));
 
     new Trigger(() -> m_dcontroller.getRawButton(ControllerConstants.Button.kTriangle))
-        .onTrue(new ResetToZeroDegreesCommand());
+        .onTrue(new TurnWheelsToZeroDegreesCommand());
     }
 
   public Command getAutonomousCommand() {

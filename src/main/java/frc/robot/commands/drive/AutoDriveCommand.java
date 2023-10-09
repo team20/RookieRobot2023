@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -10,14 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
-
-/**
- * Swerve drive joystick command
- * Based on
- * https://www.chiefdelphi.com/uploads/default/original/3X/8/c/8c0451987d09519712780ce18ce6755c21a0acc0.pdf
- * and
- * https://www.chiefdelphi.com/uploads/default/original/3X/e/f/ef10db45f7d65f6d4da874cd26db294c7ad469bb.pdf
- */
 
 
 /**
@@ -92,7 +84,5 @@ public class AutoDriveCommand extends CommandBase {
 	public boolean isFinished() {
     return Math.abs(DriveSubsystem.get().getFrontLeftSwerveModule().m_driveEncoder.getPosition() - m_distance) <= m_distanceThreshold;
   }
-
-  
 }
 

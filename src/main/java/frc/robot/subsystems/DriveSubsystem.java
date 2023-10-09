@@ -146,6 +146,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRightSwerveModule.getPIDController().setSetpoint(backRightAngle);
   }
 
+  /**
+   * Utility function to set each of the swerve modules to their
+   * respective value in the array
+   * @param moduleStates array containing 4 {@code SwerveModuleState}s in the order
+   * (FL, FR, BL, BR)
+   */
   public void setSwerveStates(SwerveModuleState[] moduleStates){
 
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, DriveConstants.kMaxVelocity);

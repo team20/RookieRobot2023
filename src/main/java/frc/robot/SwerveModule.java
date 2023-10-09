@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SwerveConstants;
 
@@ -67,9 +68,9 @@ public class SwerveModule {
      * @param state The state to attempt to set
      */
     public void setModuleState(SwerveModuleState state){
-        // Will allow the module to spin to 180 deg + target angle
-        // but swap drive speed if that is quicker than normal
-        state = SwerveModuleState.optimize(state, state.angle);
+        // Makes it so the most a module should ever need
+        // to rotate is 90 deg
+        state = SwerveModuleState.optimize(state, new Rotation2d(m_CANCoder.getPosition()));
         // Set drive speed
         m_driveMotor.set(state.speedMetersPerSecond * DriveConstants.kDriveScale);
         m_PIDController.setSetpoint(state.angle.getDegrees());

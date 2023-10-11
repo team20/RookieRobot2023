@@ -150,6 +150,11 @@ public final class Constants {
 		// Speed multiplier to make sure the robot doesn't crash into something when
 		// testing, because crashing into people's shins would be bad
 		public static final double kSpeedMultiplier = 0.25;
+
+		// Turning PID constants
+        public final static double kTurnP = 0.5;        
+		public final static double kTurnI = 0.0;		
+		public final static double kTurnD = 0.0;
 	}
 
 	public static final class BalanceConstants {

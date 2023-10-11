@@ -150,6 +150,13 @@ public final class Constants {
 		public static final double kSpeedMultiplier = 0.25;
 	}
 
+	public static final class BalanceConstants {
+		public static final double kP = 0.5;		
+		public static final double kI = 0.0;		
+		public static final double kD = 0.0;
+        public static final double kTolerance = 0.3;
+	}
+
 	public static final class SwerveConstants {
 		public static final double gearRatio = 8.14;
 		public static final double wheelDiameter = 0.1016;  // in meters

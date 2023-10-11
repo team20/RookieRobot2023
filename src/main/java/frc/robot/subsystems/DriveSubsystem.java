@@ -76,10 +76,15 @@ public class DriveSubsystem extends SubsystemBase {
     });
     resetEncoders();
   }
+
   double oldVal;
   public double getHeading(){
     return -m_gyro.getYaw();
     //return filter.calculate(m_gyro.getPitch());
+  }
+
+  public double getPitch(){
+    return m_gyro.getPitch();
   }
 
   public AHRS getNavx(){

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.CommandFactory.AutoType;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.Axis;
 import frc.robot.Constants.ControllerConstants.Button;
@@ -112,6 +113,6 @@ public class RobotContainer {
     }
 
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup(new AutoDriveCommand(0.0, -0.25, 5, 0.08));
+    return CommandFactory.createAuto(AutoType.LEAVE_AREA);
   }
 }

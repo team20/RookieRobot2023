@@ -73,5 +73,12 @@ public class AutoTurnCommand extends CommandBase {
 	public boolean isFinished() {
     return Math.abs(DriveSubsystem.get().getHeading() - m_targetAngle) <= m_angleThreshold;
   }
+
+  // Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+    //Stop driving
+		DriveSubsystem.get().setDriveMotors(0, 0, 0, 0);
+	}
 }
 

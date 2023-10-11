@@ -37,6 +37,7 @@ public class PIDArmCommand extends CommandBase {
   public void execute() {
     double speed = m_PIDController.calculate(ArmSubsystem.get().m_armMotorEncoder.getPosition());
     // Limit the speed of the arm retraction
+    // Positive speed is retraction
     if(speed > 0){
       speed *= 0.20;
     }else{

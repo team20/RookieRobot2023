@@ -22,6 +22,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveModule m_backRightSwerveModule;
   private static DriveSubsystem s_subsystem;
   private AHRS m_gyro = new AHRS(SPI.Port.kMXP); 
+  private boolean m_fieldCentric = true;
   //private MedianFilter filter = new MedianFilter(5);
 
   /** Creates a new DriveSubsystem. */
@@ -79,8 +80,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   double oldVal;
   public double getHeading(){
-    return -m_gyro.getYaw();
-    //return filter.calculate(m_gyro.getPitch());
+    if(m_fieldCentric){
+      return -m_gyro.getYaw();
+    }else{
+      // If not field centric, the foward is the robots foward (0)
+      return 0;
+    }
+  }
+
+  public void setFieldCentric(boolean fieldCentric){
+    this.m_fieldCentric = fieldCentric;
   }
 
   public double getPitch(){
@@ -107,6 +116,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRightSwerveModule.getDriveEncoder().setPosition(0);
   }
 
+  /**
+   * Makes all of the wheels point foward
+   */
   public void setWheelRotationToZeroDegrees() {
     setSteerMotors(0, 0, 0, 0);
   }

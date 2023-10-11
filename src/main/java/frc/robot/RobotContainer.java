@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -100,6 +101,14 @@ public class RobotContainer {
 
     new Trigger(() -> m_dcontroller.getRawButton(ControllerConstants.Button.kTriangle))
         .onTrue(new TurnWheelsToZeroDegreesCommand());
+
+    //Register command to turn field centric mode OFF
+    new Trigger(() -> m_dcontroller.getRawButton(ControllerConstants.Button.kCircle))
+        .onTrue(new InstantCommand((()->{DriveSubsystem.get().setFieldCentric(false);}), DriveSubsystem.get() ));
+
+    //Register command to turn field centric mode ON
+    new Trigger(() -> m_dcontroller.getRawButton(ControllerConstants.Button.kSquare))
+        .onTrue(new InstantCommand((()->{DriveSubsystem.get().setFieldCentric(true);}), DriveSubsystem.get() ));
     }
 
   public Command getAutonomousCommand() {

@@ -92,6 +92,10 @@ public final class Constants {
 		public static final double kI = 0;
 		public static final double kD = 0;
 		public static final double kUpdatePeriod = 0.02;
+
+		public static final double kRetractSpeed = 0.20;		
+		public static final double kExtendSpeed =  0.65;
+
 	}
 
 	public static final class DriveConstants {

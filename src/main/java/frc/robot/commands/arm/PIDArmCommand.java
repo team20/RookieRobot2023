@@ -39,9 +39,9 @@ public class PIDArmCommand extends CommandBase {
     // Limit the speed of the arm retraction
     // Positive speed is retraction
     if(speed > 0){
-      speed *= 0.20;
+      speed *= ArmConstants.kRetractSpeed;
     }else{
-      speed *= 0.65;
+      speed *= ArmConstants.kExtendSpeed;
     }
     ArmSubsystem.get().setMotorSpeed(speed);
   }

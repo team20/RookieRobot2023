@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
@@ -42,9 +43,9 @@ public class DefaultArmCommand extends CommandBase {
     // input so slight movements don't move the robot
     double speed = MathUtil.applyDeadband(m_yAxisDrive.get(), ControllerConstants.kDeadzone);
     if(speed > 0){
-      speed *= 0.20;
+      speed *= ArmConstants.kRetractSpeed;
     }else{
-      speed *= 0.65;
+      speed *= ArmConstants.kExtendSpeed;
     }
     m_armSubsystem.setMotorSpeed(speed);
   }

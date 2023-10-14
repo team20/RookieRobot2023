@@ -1,14 +1,14 @@
 package frc.robot.commands.pneumatic;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
+import frc.robot.subsystems.ClawPneumaticsSubsystem;
 
 public class ClawPneumaticCommand extends CommandBase {
 	public enum Operation { OPEN, CLOSE, TOGGLE };
             
-	protected ClawPneumatics m_claw;
+	protected ClawPneumaticsSubsystem m_claw;
 	protected Operation m_op;
 
-	public ClawPneumaticCommand(ClawPneumatics claw, Operation operation) {
+	public ClawPneumaticCommand(ClawPneumaticsSubsystem claw, Operation operation) {
 		this.m_claw = claw;
 		addRequirements(claw);
 		this.m_op = operation;

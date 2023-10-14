@@ -1,13 +1,13 @@
 package frc.robot.commands.pneumatic;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
+import frc.robot.subsystems.PivotPneumaticsSubsystem;
 
 public class PivotPneumaticCommand extends CommandBase {
 	public enum Operation { RAISE, LOWER, TOGGLE };      
-	protected PivotPneumatics m_pivot;
+	protected PivotPneumaticsSubsystem m_pivot;
 	protected Operation m_op;
 
-	public PivotPneumaticCommand(PivotPneumatics pivot, Operation operation) {
+	public PivotPneumaticCommand(PivotPneumaticsSubsystem pivot, Operation operation) {
 		m_pivot = pivot;
 		addRequirements(pivot);
 		this.m_op = operation;

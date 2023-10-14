@@ -55,8 +55,7 @@ public class DefaultDriveCommand extends CommandBase {
     double rotSpeed = MathUtil.applyDeadband(m_rotationAxis.get(), ControllerConstants.kDeadzone);
 
     //Get field centric speeds per wheel
-    //TODO - for robot centric use "0" instead of "DriveSubsystem.get().getHeading()"
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
       fwdSpeed, strSpeed, rotSpeed, Rotation2d.fromDegrees(DriveSubsystem.get().getHeading()));
 
     // Now use this in our kinematics

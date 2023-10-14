@@ -23,7 +23,7 @@ public class PIDAutoBalanceCommand extends CommandBase {
 
 
   /**
-   * Creates a new {@code PIDAutoBalanceCommand} with the given params.
+   * Creates a new {@code PIDAutoBalanceCommand}.
    */
   public PIDAutoBalanceCommand() {
 		addRequirements(DriveSubsystem.get());

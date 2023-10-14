@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -20,7 +19,6 @@ import frc.robot.Constants.ControllerConstants.Button;
 import frc.robot.Constants.ControllerConstants.DPad;
 import frc.robot.commands.arm.DefaultArmCommand;
 import frc.robot.commands.counterweight.DefaultCounterWeightCommand;
-import frc.robot.commands.drive.AutoDriveCommand;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.commands.drive.TurnWheelsToZeroDegreesCommand;
 import frc.robot.commands.pneumatic.ClawPneumaticCommand;
@@ -28,8 +26,8 @@ import frc.robot.commands.pneumatic.PivotPneumaticCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CounterWeightSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem.ClawPneumatics;
-import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
+import frc.robot.subsystems.ClawPneumaticsSubsystem;
+import frc.robot.subsystems.PivotPneumaticsSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -39,15 +37,21 @@ import frc.robot.subsystems.PneumaticsSubsystem.PivotPneumatics;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  // Driver joystick
   private final Joystick m_djoystick1 = new Joystick(ControllerConstants.kDriverControllerPort);
+  // Operator joystick
   private final Joystick m_ojoystick2 = new Joystick(ControllerConstants.kOperatorControllerPort);
+  // Driver controller (for buttons not joystick)
   private final GenericHID m_dcontroller = new GenericHID(ControllerConstants.kDriverControllerPort);
+  // Operator controller (for buttons not joystick)
   private final GenericHID m_ocontroller = new GenericHID(ControllerConstants.kOperatorControllerPort);
+
+  /**   SUBSYSTEMS   **/
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final CounterWeightSubsystem m_counterWeightSubsystem = new CounterWeightSubsystem();
-  private final ClawPneumatics m_claw = new ClawPneumatics();
-  private final PivotPneumatics m_pivot = new PivotPneumatics();
+  private final ClawPneumaticsSubsystem m_claw = new ClawPneumaticsSubsystem();
+  private final PivotPneumaticsSubsystem m_pivot = new PivotPneumaticsSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -110,8 +114,12 @@ public class RobotContainer {
     //Register command to turn field centric mode ON
     new Trigger(() -> m_dcontroller.getRawButton(ControllerConstants.Button.kSquare))
         .onTrue(new InstantCommand((()->{DriveSubsystem.get().setFieldCentric(true);}), DriveSubsystem.get() ));
-    }
+  }
 
+  /**
+   * Get the command to be called once the auto period begins
+   * @return the {@code SequentialCommandGroup} which corresponds with the auto you have selected
+   */
   public Command getAutonomousCommand() {
     return CommandFactory.createAuto(AutoType.LEAVE_AREA);
   }

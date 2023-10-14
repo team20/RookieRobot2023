@@ -14,13 +14,12 @@ import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.PneumaticsSubsystem.BrakePneumatics;
 import java.lang.Math;
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax m_motor = new CANSparkMax(ArmConstants.kCANDICE, MotorType.kBrushless);
   public RelativeEncoder m_armMotorEncoder = m_motor.getEncoder();
   private static ArmSubsystem m_subsystem;
-  private static BrakePneumatics m_brake = new BrakePneumatics();
+  private static BrakePneumaticsSubsystem m_brake = new BrakePneumaticsSubsystem();
   private SparkMaxLimitSwitch m_forwardLimit;
   private SparkMaxLimitSwitch m_reverseLimit;
   /** Creates a new ArmSubsystem. */

@@ -121,6 +121,6 @@ public class RobotContainer {
    * @return the {@code SequentialCommandGroup} which corresponds with the auto you have selected
    */
   public Command getAutonomousCommand() {
-    return CommandFactory.createAuto(AutoType.LEAVE_AREA);
+    return CommandFactory.createAuto(AutoType.DOCK);
   }
 }

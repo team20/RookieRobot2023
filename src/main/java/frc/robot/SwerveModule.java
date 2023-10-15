@@ -70,7 +70,7 @@ public class SwerveModule {
     public void setModuleState(SwerveModuleState state){
         // Makes it so the most a module should ever need
         // to rotate is 90 deg
-        state = SwerveModuleState.optimize(state, new Rotation2d(m_CANCoder.getPosition()));
+        // state = SwerveModuleState.optimize(state, new Rotation2d(m_CANCoder.getPosition()));
         // Set drive speed
         m_driveMotor.set(state.speedMetersPerSecond * DriveConstants.kDriveScale);
         m_PIDController.setSetpoint(state.angle.getDegrees());

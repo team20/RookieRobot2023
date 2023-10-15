@@ -131,9 +131,9 @@ public final class Constants {
 		public static final double kAllowedError = 0;
 		public static final double kMinVelocity = 0;
 		/*** Distance between center of front wheel and center of back wheel */
-		public static final double kWheelBase = 21.5;
+		public static final double kWheelBase = 3;
 		/*** Distance between center of left wheel and center of right wheel */
-		public static final double kTrackWidth = 21.5;
+		public static final double kTrackWidth = 3;
 
 		// Locations for the swerve drive modules relative to the robot center.
 		public static final Translation2d m_frontLeftLocation = new Translation2d(kTrackWidth / 2.0, kWheelBase / 2.0);

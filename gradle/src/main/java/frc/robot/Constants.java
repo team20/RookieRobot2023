@@ -113,7 +113,7 @@ public final class Constants {
 		public static final int kFrontLeftCANCoderPort = 13;
 		public static final int kBackRightCANCoderPort = 15;
 		public static final int kBackLeftCANCoderPort = 16;
-		public static final double kDriveScale = 0.5;
+		public static final double kDriveScale = 0.9;
 		// Drive PID values
 		public static final double kP = 0.005;
 		public static final double kI = 0;

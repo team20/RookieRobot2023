@@ -19,8 +19,8 @@ public class PIDArmCommand extends CommandBase {
     private PIDController m_PIDController = new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD, ArmConstants.kUpdatePeriod);
 
 
-  public PIDArmCommand(Supplier<Double> targetAngle) {
-    m_PIDController.setSetpoint(targetAngle.get());
+  public PIDArmCommand(double targetAngle) {
+    m_PIDController.setSetpoint(targetAngle);
     addRequirements(ArmSubsystem.get());
   }
 
